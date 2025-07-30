@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +14,97 @@
             height: 100%;
             object-fit: cover;
             z-index: -1;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        
+        #video-background.loaded {
+            opacity: 1;
+        }
+        
+        /* Fallback background image while video loads */
+        .video-fallback {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+            background-size: cover;
+            background-position: center;
+            z-index: -2;
+        }
+        
+        /* Loading spinner for video */
+        .video-loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            color: white;
+        }
+        
+        .video-loading.hidden {
+            display: none;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(239, 65, 75, 0.3);
+            border-top: 3px solid #ef414b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            font-size: 16px;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .loading-progress {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .loading-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ef414b, #ff6b75);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        /* Reduced motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            #video-background {
+                animation: none;
+            }
+            .spinner {
+                animation: none;
+                border: 3px solid #ef414b;
+            }
+        }
+        
+        /* Hide video on slow connections or mobile */
+        @media (max-width: 768px) {
+            #video-background {
+                display: none;
+            }
         }
         
         /* Add overlay for better text readability */
@@ -1759,9 +1849,30 @@
 </head>
 
 <body>
-    <!-- Video background element -->
-    <video id="video-background" autoplay muted loop playsinline>
+    <!-- Loading screen -->
+    <div class="video-loading" id="videoLoading">
+        <div class="spinner"></div>
+        <div class="loading-text">Loading video...</div>
+        <div class="loading-progress">
+            <div class="loading-progress-bar" id="loadingProgress"></div>
+        </div>
+    </div>
+    
+    <!-- Fallback background -->
+    <div class="video-fallback"></div>
+    
+    <!-- Video background element with optimization attributes -->
+    <video id="video-background" 
+           autoplay 
+           muted 
+           loop 
+           playsinline 
+           preload="none"
+           poster=""
+           data-mobile-src="">
         <source src="2.mp4" type="video/mp4">
+        <!-- Add WebM format for better compression -->
+        <source src="2.webm" type="video/webm">
         Your browser does not support the video tag.
     </video>
     
@@ -2484,6 +2595,159 @@
                     icon.style.transform = 'scale(1) rotate(0deg)';
                     number.style.transform = 'scale(1)';
                 });
+            });
+        });
+
+        // Optimized Video Loading System
+        document.addEventListener('DOMContentLoaded', () => {
+            const video = document.getElementById('video-background');
+            const loadingScreen = document.getElementById('videoLoading');
+            const progressBar = document.getElementById('loadingProgress');
+            const loadingText = document.querySelector('.loading-text');
+            
+            // Check if user prefers reduced motion or is on mobile
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const isMobile = window.innerWidth <= 768;
+            const isSlowConnection = navigator.connection && 
+                (navigator.connection.effectiveType === 'slow-2g' || 
+                 navigator.connection.effectiveType === '2g' || 
+                 navigator.connection.saveData);
+            
+            // Skip video loading for mobile, slow connections, or reduced motion preference
+            if (isMobile || isSlowConnection || prefersReducedMotion) {
+                loadingScreen.classList.add('hidden');
+                video.style.display = 'none';
+                return;
+            }
+            
+            // Check if video file exists before loading
+            let videoSrc = '2.mp4';
+            let fallbackSrc = '2.webm';
+            
+            // Function to check if file exists
+            function checkVideoExists(src) {
+                return new Promise((resolve) => {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('HEAD', src, true);
+                    xhr.onload = () => resolve(xhr.status === 200);
+                    xhr.onerror = () => resolve(false);
+                    xhr.send();
+                });
+            }
+            
+            // Function to start video loading
+            async function loadVideo() {
+                try {
+                    // Check if video files exist
+                    const mp4Exists = await checkVideoExists(videoSrc);
+                    const webmExists = await checkVideoExists(fallbackSrc);
+                    
+                    if (!mp4Exists && !webmExists) {
+                        throw new Error('Video files not found');
+                    }
+                    
+                    // Start loading progress simulation
+                    let progress = 0;
+                    const progressInterval = setInterval(() => {
+                        progress += Math.random() * 15;
+                        if (progress > 90) progress = 90;
+                        progressBar.style.width = progress + '%';
+                    }, 200);
+                    
+                    // Create a new video element for preloading
+                    const tempVideo = document.createElement('video');
+                    tempVideo.muted = true;
+                    tempVideo.playsInline = true;
+                    
+                    // Use the appropriate video source
+                    if (webmExists && !mp4Exists) {
+                        tempVideo.src = fallbackSrc;
+                    } else {
+                        tempVideo.src = videoSrc;
+                    }
+                    
+                    // Track loading progress
+                    tempVideo.addEventListener('progress', () => {
+                        if (tempVideo.buffered.length > 0) {
+                            const loaded = tempVideo.buffered.end(0) / tempVideo.duration;
+                            const actualProgress = Math.min(loaded * 100, 95);
+                            progressBar.style.width = actualProgress + '%';
+                        }
+                    });
+                    
+                    // When video can play through
+                    tempVideo.addEventListener('canplaythrough', () => {
+                        clearInterval(progressInterval);
+                        progressBar.style.width = '100%';
+                        
+                        setTimeout(() => {
+                            // Transfer the loaded video to the actual video element
+                            video.src = tempVideo.src;
+                            video.load();
+                            
+                            // When actual video is ready
+                            video.addEventListener('canplay', () => {
+                                video.classList.add('loaded');
+                                loadingScreen.classList.add('hidden');
+                                
+                                // Start playing
+                                video.play().catch(e => {
+                                    console.log('Video autoplay failed:', e);
+                                    // Fallback: just hide loading and show static background
+                                    loadingScreen.classList.add('hidden');
+                                });
+                            });
+                            
+                        }, 500);
+                    });
+                    
+                    // Handle loading errors
+                    tempVideo.addEventListener('error', () => {
+                        throw new Error('Video loading failed');
+                    });
+                    
+                    // Timeout after 10 seconds
+                    setTimeout(() => {
+                        if (!video.classList.contains('loaded')) {
+                            throw new Error('Video loading timeout');
+                        }
+                    }, 10000);
+                    
+                    // Start loading
+                    tempVideo.load();
+                    
+                } catch (error) {
+                    console.log('Video loading failed:', error);
+                    // Hide loading screen and keep fallback background
+                    clearInterval(progressInterval);
+                    loadingScreen.classList.add('hidden');
+                    video.style.display = 'none';
+                }
+            }
+            
+            // Start loading after a short delay to let the page render
+            setTimeout(loadVideo, 500);
+            
+            // Handle visibility change (pause video when tab is hidden)
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    video.pause();
+                } else if (video.readyState >= 3) {
+                    video.play().catch(e => console.log('Resume failed:', e));
+                }
+            });
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth <= 768 && !video.style.display === 'none') {
+                    video.style.display = 'none';
+                    video.pause();
+                } else if (window.innerWidth > 768 && video.style.display === 'none') {
+                    video.style.display = 'block';
+                    if (video.readyState >= 3) {
+                        video.play().catch(e => console.log('Resize play failed:', e));
+                    }
+                }
             });
         });
     </script>
