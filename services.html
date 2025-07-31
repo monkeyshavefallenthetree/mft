@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - Monkeys Have Fallen The Tree</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            background: none !important;
+            color: #ffffff;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Video background styling */
+        #video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        
+        /* Add overlay for better text readability */
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 0;
+        }
+
+        /* Animated background shapes */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(239, 65, 75, 0.03), rgba(239, 65, 75, 0.08));
+            animation: float 25s infinite ease-in-out;
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            right: 10%;
+            animation-delay: -8s;
+        }
+
+        .shape-3 {
+            width: 150px;
+            height: 150px;
+            top: 30%;
+            right: 25%;
+            animation-delay: -16s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg) scale(1);
+                opacity: 0.3;
+            }
+            25% {
+                transform: translateY(-40px) rotate(90deg) scale(1.1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg) scale(0.9);
+                opacity: 0.4;
+            }
+            75% {
+                transform: translateY(-60px) rotate(270deg) scale(1.05);
+                opacity: 0.6;
+            }
+        }
+
+        /* Header styles */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(239, 65, 75, 0.3);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+            max-width: 200px;
+            object-fit: contain;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links li a:hover,
+        .nav-links li a.active {
+            color: #ef414b;
+        }
+
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ef414b;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links li a:hover::after,
+        .nav-links li a.active::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: #ef414b;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background: #d63641;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(239, 65, 75, 0.3);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .mobile-menu-toggle span {
+            width: 24px;
+            height: 2px;
+            background: #ef414b;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .mobile-nav-links li a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 16px;
+            padding: 8px 0;
+            display: block;
+        }
+
+        /* Main content */
+        .main-content {
+            position: relative;
+            z-index: 2;
+            padding-top: 70px;
+        }
+
+        /* Hero section */
+        .services-hero {
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .services-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ef414b, transparent);
+            animation: heroLineGlow 3s ease-in-out infinite alternate;
+            border-radius: 2px;
+        }
+
+        @keyframes heroLineGlow {
+            0% { 
+                opacity: 0.5; 
+                transform: translateX(-50%) scaleX(0.8); 
+                box-shadow: 0 0 10px rgba(239, 65, 75, 0.3);
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateX(-50%) scaleX(1.2); 
+                box-shadow: 0 0 30px rgba(239, 65, 75, 0.6);
+            }
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 800;
+            margin-bottom: 30px;
+            background: linear-gradient(120deg, 
+                #ffffff 0%, 
+                #ef414b 25%, 
+                #ff6b75 35%, 
+                #ffffff 50%, 
+                #ef414b 65%, 
+                #ff8a94 75%, 
+                #ffffff 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 400% 400%;
+            animation: ultraSmoothShimmer 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            line-height: 1.1;
+            position: relative;
+            text-align: center;
+            letter-spacing: -1px;
+            transform: translateZ(0);
+            will-change: background-position, filter;
+        }
+
+        /* Ultra smooth shimmer animation */
+        @keyframes ultraSmoothShimmer {
+            0% { 
+                background-position: 0% 50%;
+                filter: brightness(1) saturate(1.2) hue-rotate(0deg);
+                transform: scale(1) translateZ(0);
+            }
+            50% { 
+                background-position: 50% 50%;
+                filter: brightness(1.4) saturate(1.6) hue-rotate(10deg);
+                transform: scale(1.04) translateZ(0);
+            }
+            100% {
+                background-position: 100% 50%;
+                filter: brightness(1) saturate(1.2) hue-rotate(0deg);
+                transform: scale(1) translateZ(0);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #cccccc;
+            font-weight: 300;
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+
+        /* Services grid */
+        .services-section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .services-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .service-card {
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(239, 65, 75, 0.2);
+            border-radius: 24px;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: cardSlideUp 0.8s ease-out forwards;
+        }
+
+        .service-card:nth-child(1) { animation-delay: 0.1s; }
+        .service-card:nth-child(2) { animation-delay: 0.2s; }
+        .service-card:nth-child(3) { animation-delay: 0.3s; }
+        .service-card:nth-child(4) { animation-delay: 0.4s; }
+        .service-card:nth-child(5) { animation-delay: 0.5s; }
+        .service-card:nth-child(6) { animation-delay: 0.6s; }
+        .service-card:nth-child(7) { animation-delay: 0.7s; }
+        .service-card:nth-child(8) { animation-delay: 0.8s; }
+
+        @keyframes cardSlideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(239, 65, 75, 0.1), transparent);
+            transition: left 0.8s ease;
+        }
+
+        .service-card:hover::before {
+            left: 100%;
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 50px rgba(239, 65, 75, 0.15);
+            border-color: rgba(239, 65, 75, 0.4);
+        }
+
+        .service-content {
+            padding: 40px 30px 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ef414b 0%, #ff6b75 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            color: white;
+            font-size: 2.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .service-card:hover .service-icon::before {
+            opacity: 1;
+            transform: rotate(45deg) translate(50%, 50%);
+        }
+
+        .service-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #ffffff;
+            transition: color 0.3s ease;
+        }
+
+        .service-card:hover .service-title {
+            color: #ef414b;
+        }
+
+        .service-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #cccccc;
+            margin-bottom: 25px;
+        }
+
+        .service-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .service-features li {
+            padding: 8px 0;
+            color: #e0e0e0;
+            position: relative;
+            padding-left: 25px;
+            font-size: 0.9rem;
+        }
+
+        .service-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #ef414b;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .service-cta {
+            background: transparent;
+            border: 2px solid #ef414b;
+            color: #ef414b;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .service-cta:hover {
+            background: #ef414b;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239, 65, 75, 0.3);
+        }
+
+        /* Statistics section */
+        .stats-section {
+            padding: 80px 0;
+            background: rgba(5, 5, 5, 0.3);
+            margin: 80px 0;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(239, 65, 75, 0.2);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(239, 65, 75, 0.4);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #ef414b;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #cccccc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* CTA section */
+        .cta-section {
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .cta-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .cta-subtitle {
+            font-size: 1.2rem;
+            color: #cccccc;
+            margin-bottom: 40px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-primary {
+            background: #ef414b;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .cta-primary:hover {
+            background: #d63641;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(239, 65, 75, 0.3);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            border: 2px solid #ffffff;
+            color: #ffffff;
+            padding: 14px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .cta-secondary:hover {
+            background: #ffffff;
+            color: #000000;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 15px;
+                height: 60px;
+            }
+            
+            .logo img {
+                height: 32px;
+            }
+            
+            .nav {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .mobile-menu.active {
+                display: block;
+                animation: slideDown 0.3s ease-out;
+            }
+
+            .mobile-menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .mobile-menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .mobile-menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+            
+            @keyframes slideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .services-hero {
+                padding: 80px 0 60px;
+            }
+
+            .services-section {
+                padding: 60px 0;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .service-card {
+                margin: 0 10px;
+            }
+
+            .service-content {
+                padding: 30px 25px 25px;
+            }
+
+            .service-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+
+            .stats-section {
+                padding: 60px 0;
+                margin: 60px 0;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+
+            .cta-section {
+                padding: 60px 0;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-primary,
+            .cta-secondary {
+                width: 100%;
+                max-width: 280px;
+                text-align: center;
+            }
+
+            .shape {
+                opacity: 0.2;
+            }
+        }
+
+        /* Scroll animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Video background element -->
+    <video id="video-background" autoplay muted loop playsinline>
+        <source src="2.webm" type="video/webm">
+        Your browser does not support the video tag.
+    </video>
+    
+    <!-- Overlay for better text readability -->
+    <div class="video-overlay"></div>
+
+    <!-- Background animation -->
+    <div class="bg-animation">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img src="mft.jpg" alt="Monkeys Have Fallen The Tree Logo" />
+            </a>
+            
+            <nav class="nav">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="services.html" class="active">Services</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <a href="#get-started" class="cta-button">Get Started</a>
+            </nav>
+
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <div class="mobile-menu" id="mobileMenu">
+            <ul class="mobile-nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="portfolio.html">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="#get-started" class="cta-button">Get Started</a>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="main-content">
+        <!-- Hero section -->
+        <section class="services-hero">
+            <div class="hero-container">
+                <h1 class="hero-title animate-on-scroll">Our Services</h1>
+                <p class="hero-subtitle animate-on-scroll">Comprehensive digital solutions designed to elevate your brand and drive exceptional results</p>
+            </div>
+        </section>
+
+        <!-- Services section -->
+        <section class="services-section">
+            <div class="services-container">
+                <div class="services-grid">
+                    <!-- Branding -->
+                    <div class="service-card">
+                        <div class="service-content">
+                            <div class="service-icon">🎨</div>
+                            <h3 class="service-title">Branding</h3>
+                            <p class="service-description">Create a distinctive brand identity that resonates with your audience and stands out in the market.</p>
+                            <ul class="service-features">
+                                <li>Logo Design & Brand Identity</li>
+                                <li>Brand Guidelines & Strategy</li>
+                                <li>Visual Identity Systems</li>
+                                <li>Brand Positioning & Messaging</li>
+                            </ul>
+                            <a href="#contact" class="service-cta">Learn More</a>
+                        </div>
+                    </div>
+
+                    <!-- Media Buying -->
+                    <div class="service-card">
+                        <div class="service-content">
+                            <div class="service-icon">📊</div>
+                            <h3 class="service-title">Media Buying</h3>
+                            <p class="service-description">Strategic media purchasing across all platforms to maximize your advertising ROI and reach.</p>
+                            <ul class="service-features">
+                                <li>Digital Media Planning</li>
+                                <li>Programmatic Advertising</li>
+                                <li>Cross-Platform Campaigns</li>
+                                <li>Performance Analytics</li>
+                            </ul>
+                            <a href="#contact" class="service-cta">Learn More</a>
+                        </div>
+                    </div>
+
+                    <!-- Digital Marketing -->
+                    <div class="service-card">
+                        <div class="service-content">
+                            <div class="service-icon">🚀</div>
+                            <h3 class="service-title">Digital Marketing</h3>
+                            <p class="service-description">Comprehensive digital strategies that drive growth, engagement, and conversions across all channels.</p>
+                            <ul class="service-features">
+                                <li>Social Media Marketing</li>
+                                <li>Content Marketing Strategy</li>
+                                <li>Email Marketing Campaigns</li>
+                                <li>PPC & SEM Management</li>
+                            </ul>
+                            <a href="#contact" class="service-cta">Learn More</a>
+                        </div>
+                    </div>
+
+                    <!-- Media Production -->
+                    <div class="service-card">
+                        <div class="service-content">
+                            <div class="service-icon">🎬</div>
+                            <h3 class="service-title">Media Production</h3>
+                            <p class="service-description">High-quality video, audio, and visual content production that captivates and engages your audience.</p>
+                            <ul class="service-features">
+                                <li>Video Production & Editing</li>
+                                <li>Photography & Photo Editing</li>
+                                <li>Motion Graphics & Animation</li>
+                                <li>Audio Production & Podcasts</li>
+                            </ul>
+                            <a href="#contact" class="service-cta">Learn More</a>
+                        </div>
+                    </div>
+
+                    <!-- Outdoor Advertising -->
+                    <div class="service-card">
+                        <div class="service-content">
+                            <div class="service-icon">🏙️</div>
+                            <h3 class="service-title">Outdoor Advertising</h3>
+                            <p class="service-description">Impactful outdoor campaigns that capture attention and create lasting brand impressions in the real world.</p>
+                            <ul class="service-features">
+                                <li>Billboard & Transit Advertising</li>
+                                <li>Digital Signage Solutions</li>
+                                <li>Street Furniture Campaigns</li>
+                                <li>Location-Based Targeting</li>
+                            </ul>
+                            <a href="#contact" class="service-cta">Learn More</a>
+                        </div>
+                    </div>
+
+                    <!-- Web & SEO Development -->
+                    <div class="service-card">
+                        <div class="service-content">
+                            <div class="service-icon">💻</div>
+                            <h3 class="service-title">Web & SEO Development</h3>
+                            <p class="service-description">Modern, responsive websites optimized for search engines and designed for exceptional user experiences.</p>
+                            <ul class="service-features">
+                                <li>Custom Website Development</li>
+                                <li>SEO Optimization & Strategy</li>
+                                <li>E-commerce Solutions</li>
+                                <li>Performance & Analytics</li>
+                            </ul>
+                            <a href="#contact" class="service-cta">Learn More</a>
+                        </div>
+                    </div>
+
+                    <!-- Printing Solutions -->
+                    <div class="service-card">
+                        <div class="service-content">
+                            <div class="service-icon">🖨️</div>
+                            <h3 class="service-title">Printing Solutions</h3>
+                            <p class="service-description">Professional printing services for all your marketing materials, from business cards to large format displays.</p>
+                            <ul class="service-features">
+                                <li>Business Cards & Stationery</li>
+                                <li>Brochures & Marketing Materials</li>
+                                <li>Large Format Printing</li>
+                                <li>Packaging & Label Design</li>
+                            </ul>
+                            <a href="#contact" class="service-cta">Learn More</a>
+                        </div>
+                    </div>
+
+                    <!-- Event Management -->
+                    <div class="service-card">
+                        <div class="service-content">
+                            <div class="service-icon">🎉</div>
+                            <h3 class="service-title">Event Management</h3>
+                            <p class="service-description">End-to-end event planning and execution that creates memorable experiences for your brand and audience.</p>
+                            <ul class="service-features">
+                                <li>Corporate Event Planning</li>
+                                <li>Product Launch Events</li>
+                                <li>Trade Show Management</li>
+                                <li>Virtual & Hybrid Events</li>
+                            </ul>
+                            <a href="#contact" class="service-cta">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Statistics section -->
+        <section class="stats-section">
+            <div class="stats-container">
+                <div class="stats-grid">
+                    <div class="stat-card animate-on-scroll">
+                        <span class="stat-number">150+</span>
+                        <span class="stat-label">Projects Completed</span>
+                    </div>
+                    <div class="stat-card animate-on-scroll">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Happy Clients</span>
+                    </div>
+                    <div class="stat-card animate-on-scroll">
+                        <span class="stat-number">8+</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                    <div class="stat-card animate-on-scroll">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Support Available</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA section -->
+        <section class="cta-section">
+            <div class="cta-container">
+                <h2 class="cta-title animate-on-scroll">Ready to Transform Your Business?</h2>
+                <p class="cta-subtitle animate-on-scroll">Let's discuss how our services can help you achieve your goals and exceed your expectations.</p>
+                <div class="cta-buttons animate-on-scroll">
+                    <a href="client-form-firebase.html" class="cta-primary">Start Your Project</a>
+                    <a href="portfolio.html" class="cta-secondary">View Our Work</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            
+            mobileMenu.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+
+        // Close mobile menu when clicking on links
+        document.querySelectorAll('.mobile-nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobileMenu').classList.remove('active');
+                document.querySelector('.mobile-menu-toggle').classList.remove('active');
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(0, 0, 0, 0.95)';
+                header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.background = 'rgba(0, 0, 0, 0.9)';
+                header.style.boxShadow = 'none';
+            }
+        });
+
+        // Scroll animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all elements with animation class
+            document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Add staggered delay to service cards
+            document.querySelectorAll('.service-card').forEach((card, index) => {
+                card.style.transitionDelay = `${index * 0.1}s`;
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.documentElement.style.scrollBehavior = 'smooth';
+
+        // Service card interactions
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-15px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Add page load animation
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease-in-out';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Counter animation for stats
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            counters.forEach(counter => {
+                const target = counter.textContent;
+                const number = parseInt(target.replace(/\D/g, ''));
+                const suffix = target.replace(/\d/g, '');
+                
+                let current = 0;
+                const increment = number / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= number) {
+                        current = number;
+                        clearInterval(timer);
+                    }
+                    counter.textContent = Math.floor(current) + suffix;
+                }, 50);
+            });
+        }
+
+        // Trigger counter animation when stats section is visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        });
+
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+    </script>
+</body>
+</html> 
