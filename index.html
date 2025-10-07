@@ -53,8 +53,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- Vimeo Player API -->
-    <script src="https://player.vimeo.com/api/player.js"></script>
+    <!-- Preconnect to Vimeo for faster loading -->
+    <link rel="preconnect" href="https://player.vimeo.com">
+    <link rel="preconnect" href="https://i.vimeocdn.com">
+    <link rel="preconnect" href="https://f.vimeocdn.com">
+    
+    <!-- Vimeo Player API - Load asynchronously -->
+    <script src="https://player.vimeo.com/api/player.js" async></script>
     
     <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
@@ -648,6 +653,21 @@
             border: none;
             outline: none;
             object-fit: cover;
+        }
+
+        /* Loading spinner animation for Vimeo */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Vimeo optimization styles */
+        #vimeo-placeholder {
+            z-index: 2;
+        }
+
+        #vimeo-iframe {
+            z-index: 1;
         }
 
         .slider-controls {
@@ -3538,12 +3558,23 @@
                                         <div class="slides">
                                             <div class="slide active">
                                                 <div id="slider-video" style="width: 100%; height: 100%; position: relative;">
-                                                    <iframe src="https://player.vimeo.com/video/1125241743?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&muted=1&background=1&controls=0&title=0&byline=0&portrait=0" 
+                                                    <!-- Video Placeholder -->
+                                                    <div id="vimeo-placeholder" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(45deg, #1a1a1a, #2d2d2d); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px; opacity: 1; transition: opacity 0.5s ease;">
+                                                        <div style="text-align: center;">
+                                                            <div style="width: 60px; height: 60px; border: 3px solid #ef414b; border-radius: 50%; border-top: 3px solid transparent; animation: spin 1s linear infinite; margin: 0 auto 15px;"></div>
+                                                            <p>Loading Video...</p>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Optimized Vimeo Iframe - Loads on demand -->
+                                                    <iframe id="vimeo-iframe" 
+                                                            data-src="https://player.vimeo.com/video/1125241743?badge=0&autopause=0&autoplay=1&loop=1&muted=1&background=1&controls=0&title=0&byline=0&portrait=0&quality=720p&transparent=0&dnt=1" 
                                                             frameborder="0" 
-                                                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+                                                            allow="autoplay; fullscreen; picture-in-picture" 
                                                             referrerpolicy="strict-origin-when-cross-origin" 
-                                                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"
-                                                            title="finall">
+                                                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.5s ease;"
+                                                            title="finall"
+                                                            loading="lazy">
                                                     </iframe>
                                                 </div>
                                             </div>
@@ -5178,19 +5209,24 @@
                     }, 100);
                 }
 
-                 // Restart videos when navigating to home section
-                 if (sectionName === 'home') {
-                     setTimeout(() => {
-                         const backgroundVideo = document.getElementById('video-background');
-                         
-                         // Only restart background video (slider is now Vimeo iframe - auto-managed)
-                         if (backgroundVideo && backgroundVideo.paused) {
-                             console.log(`Restarting background video on home navigation: ${backgroundVideo.id}`);
-                             backgroundVideo.currentTime = 0;
-                             backgroundVideo.play().catch(e => console.log('Video restart failed:', e));
-                         }
-                     }, 100);
-                 }
+                // Restart videos when navigating to home section
+                if (sectionName === 'home') {
+                    setTimeout(() => {
+                        const backgroundVideo = document.getElementById('video-background');
+                        
+                        // Only restart background video (slider is now Vimeo iframe - auto-managed)
+                        if (backgroundVideo && backgroundVideo.paused) {
+                            console.log(`Restarting background video on home navigation: ${backgroundVideo.id}`);
+                            backgroundVideo.currentTime = 0;
+                            backgroundVideo.play().catch(e => console.log('Video restart failed:', e));
+                        }
+
+                        // Ensure Vimeo iframe is loaded when returning to home
+                        if (window.vimeoLazyLoader && !window.vimeoLazyLoader.vimeoLoaded) {
+                            window.vimeoLazyLoader.forceLoad();
+                        }
+                    }, 100);
+                }
             }
 
             initPortfolioLazyLoading() {
@@ -5448,10 +5484,72 @@
             }
         }
 
+        // Optimized Vimeo Loader
+        class VimeoLazyLoader {
+            constructor() {
+                this.vimeoLoaded = false;
+                this.init();
+            }
+
+            init() {
+                // Load Vimeo iframe when page is ready
+                setTimeout(() => {
+                    this.loadVimeoIframe();
+                }, 1000); // Delay 1 second for faster initial page load
+            }
+
+            loadVimeoIframe() {
+                if (this.vimeoLoaded) return;
+
+                const iframe = document.getElementById('vimeo-iframe');
+                const placeholder = document.getElementById('vimeo-placeholder');
+                
+                if (!iframe || !iframe.dataset.src) return;
+
+                console.log('🎬 Loading optimized Vimeo iframe...');
+
+                // Set the actual src to start loading
+                iframe.src = iframe.dataset.src;
+                iframe.removeAttribute('data-src');
+
+                // Handle iframe load
+                iframe.onload = () => {
+                    console.log('✅ Vimeo iframe loaded successfully');
+                    
+                    // Fade out placeholder and fade in video
+                    if (placeholder) {
+                        placeholder.style.opacity = '0';
+                        setTimeout(() => {
+                            placeholder.style.display = 'none';
+                        }, 500);
+                    }
+                    
+                    iframe.style.opacity = '1';
+                    this.vimeoLoaded = true;
+                };
+
+                // Handle iframe error
+                iframe.onerror = () => {
+                    console.log('❌ Vimeo iframe failed to load');
+                    if (placeholder) {
+                        placeholder.innerHTML = '<div style="text-align: center; color: #ef414b;">⚠️ Video failed to load</div>';
+                    }
+                };
+            }
+
+            // Public method to force load (if needed)
+            forceLoad() {
+                this.loadVimeoIframe();
+            }
+        }
+
         // Initialize Universal Lazy Loader and SPA Router when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             // Create global lazy loader instance
             window.universalLazyLoader = new UniversalLazyLoader();
+            
+            // Initialize optimized Vimeo loader
+            window.vimeoLazyLoader = new VimeoLazyLoader();
             
             // Initialize SPA Router
             new SPARouter();
@@ -5463,6 +5561,7 @@
             console.log('📊 Total portfolio images:', document.querySelectorAll('.photo-placeholder-spa').length);
             console.log('🖼️ Portfolio now includes all available images (1-79, excluding 46)');
             console.log('📐 Portfolio images now display at full width with no spacing - seamless gallery');
+            console.log('🎬 Vimeo video optimized with lazy loading and performance enhancements');
             console.log('✨ Blog section has been removed from navigation and content');
         });
 
