@@ -141,9 +141,81 @@
                 min-height: 100vh;
             }
         }
-        
-        /* Add overlay for better text readability */
-        .video-overlay {
+         
+         /* Enhanced iOS Video Controls & Optimization */
+         video {
+             -webkit-transform: translateZ(0);
+             transform: translateZ(0);
+             -webkit-backface-visibility: hidden;
+             backface-visibility: hidden;
+             will-change: transform;
+         }
+
+         /* Hide all video controls for iOS Safari */
+         video::-webkit-media-controls {
+             display: none !important;
+         }
+
+         video::-webkit-media-controls-panel {
+             display: none !important;
+         }
+
+         video::-webkit-media-controls-play-button {
+             display: none !important;
+         }
+
+         video::-webkit-media-controls-start-playback-button {
+             display: none !important;
+         }
+
+         video::-webkit-media-controls-timeline {
+             display: none !important;
+         }
+
+         video::-webkit-media-controls-current-time-display {
+             display: none !important;
+         }
+
+         video::-webkit-media-controls-time-remaining-display {
+             display: none !important;
+         }
+
+         video::-webkit-media-controls-mute-button {
+             display: none !important;
+         }
+
+         video::-webkit-media-controls-volume-slider {
+             display: none !important;
+         }
+
+         video::-webkit-media-controls-fullscreen-button {
+             display: none !important;
+         }
+
+         video::-webkit-media-controls-overlay-play-button {
+             display: none !important;
+         }
+
+         /* Additional iOS Safari video optimizations */
+         @supports (-webkit-appearance: none) {
+             video {
+                 -webkit-transform: translate3d(0, 0, 0);
+                 transform: translate3d(0, 0, 0);
+                 -webkit-appearance: none;
+                 appearance: none;
+             }
+             
+             #video-background,
+             #slider-video {
+                 -webkit-playsinline: 1;
+                 -webkit-user-select: none;
+                 user-select: none;
+                 pointer-events: none;
+             }
+         }
+         
+         /* Add overlay for better text readability */
+         .video-overlay {
             position: fixed;
             top: 0;
             left: 0;
@@ -3679,10 +3751,11 @@
                                     <div class="slider-wrapper">
                                         <div class="slides">
                                             <div class="slide active">
-                                                <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                                                    <source src="final.mp4" type="video/mp4">
-                                                    Your browser does not support the video tag.
-                                                </video>
+                                                <video id="slider-video" autoplay muted loop playsinline webkit-playsinline preload="auto" style="width: 100%; height: 100%; object-fit: cover;">
+                                                     <source src="final.mp4" type="video/mp4">
+                                                     <source src="finall.webm" type="video/webm">
+                                                     Your browser does not support the video tag.
+                                                 </video>
                                             </div>
                                         </div>
                                         
@@ -4855,75 +4928,285 @@
             }, 3000);
         });
 
-        // iOS Video Background Autoplay Fix
-        document.addEventListener('DOMContentLoaded', function() {
-            const video = document.getElementById('video-background');
-            
-            // Check if it's iOS
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
-                         (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-            
-            // Check if it's Safari
-            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-            
-            if (video) {
-                // Set additional iOS-specific attributes
-                video.setAttribute('webkit-playsinline', '');
-                video.setAttribute('playsinline', '');
-                video.muted = true;
-                video.defaultMuted = true;
-                video.volume = 0;
-                
-                // Force video to load
-                video.load();
-                
-                // Attempt to play the video
-                const playPromise = video.play();
-                
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        // Video started playing successfully
-                        console.log('Video autoplay started');
-                    }).catch(error => {
-                        console.log('Video autoplay failed:', error);
-                        
-                        // Fallback for iOS: try to play on first user interaction
-                        if (isIOS || isSafari) {
-                            const playOnInteraction = () => {
-                                video.play().then(() => {
-                                    console.log('Video started on user interaction');
-                                }).catch(err => {
-                                    console.log('Video play failed even with interaction:', err);
-                                });
-                                
-                                // Remove event listeners after first successful play
-                                document.removeEventListener('touchstart', playOnInteraction);
-                                document.removeEventListener('click', playOnInteraction);
-                                document.removeEventListener('scroll', playOnInteraction);
-                            };
-                            
-                            // Add event listeners for user interaction
-                            document.addEventListener('touchstart', playOnInteraction, { passive: true });
-                            document.addEventListener('click', playOnInteraction, { passive: true });
-                            document.addEventListener('scroll', playOnInteraction, { passive: true, once: true });
-                        }
-                    });
-                }
-                
-                // Additional iOS handling
-                if (isIOS) {
-                    // Force video properties for iOS
-                    video.style.objectFit = 'cover';
-                    video.style.objectPosition = 'center';
-                    
-                    // Handle video ended event to restart
-                    video.addEventListener('ended', function() {
-                        video.currentTime = 0;
-                        video.play();
-                    });
-                }
-            }
-        });
+         // Enhanced iOS Video Autoplay System for Multiple Videos
+         document.addEventListener('DOMContentLoaded', function() {
+             // Get all videos that need autoplay
+             const backgroundVideo = document.getElementById('video-background');
+             const sliderVideo = document.getElementById('slider-video');
+             const videos = [backgroundVideo, sliderVideo].filter(video => video !== null);
+             
+             // Check if it's iOS or Safari
+             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                          (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) ||
+                          /iPhone|iPad|iPod|iOS/.test(navigator.userAgent);
+             
+             const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent) ||
+                             navigator.vendor === "Apple Computer, Inc.";
+             
+             console.log('Device detection:', { isIOS, isSafari, userAgent: navigator.userAgent });
+             
+             let userInteracted = false;
+             
+             // Function to setup video for iOS/Safari
+             function setupVideoForIOS(video) {
+                 if (!video) return;
+                 
+                 // Set iOS-specific attributes aggressively
+                 video.setAttribute('webkit-playsinline', 'true');
+                 video.setAttribute('playsinline', 'true');
+                 video.setAttribute('muted', 'true');
+                 video.setAttribute('autoplay', 'true');
+                 video.setAttribute('loop', 'true');
+                 video.setAttribute('preload', 'auto');
+                 video.setAttribute('x-webkit-airplay', 'deny');
+                 video.setAttribute('disablepictureinpicture', 'true');
+                 
+                 // Force properties
+                 video.muted = true;
+                 video.defaultMuted = true;
+                 video.volume = 0;
+                 video.autoplay = true;
+                 video.loop = true;
+                 video.playsInline = true;
+                 
+                 // iOS-specific styling
+                 video.style.objectFit = 'cover';
+                 video.style.objectPosition = 'center';
+                 video.style.webkitTransform = 'translateZ(0)';
+                 video.style.transform = 'translateZ(0)';
+                 
+                 // Force load
+                 video.load();
+                 
+                 console.log(`Setting up video: ${video.id}`, {
+                     muted: video.muted,
+                     autoplay: video.autoplay,
+                     playsInline: video.playsInline
+                 });
+                 
+                 return video;
+             }
+             
+             // Function to attempt video play
+             function attemptPlay(video) {
+                 if (!video) return Promise.resolve();
+                 
+                 console.log(`Attempting to play video: ${video.id}`);
+                 
+                 // Ensure video is ready
+                 if (video.readyState < 2) {
+                     video.load();
+                     return new Promise(resolve => {
+                         video.addEventListener('loadeddata', () => attemptPlay(video).then(resolve), { once: true });
+                     });
+                 }
+                 
+                 const playPromise = video.play();
+                 
+                 if (playPromise !== undefined) {
+                     return playPromise.then(() => {
+                         console.log(`✅ Video ${video.id} autoplay successful`);
+                         return true;
+                     }).catch(error => {
+                         console.log(`❌ Video ${video.id} autoplay failed:`, error.message);
+                         return false;
+                     });
+                 }
+                 
+                 return Promise.resolve(false);
+             }
+             
+             // Function to handle user interaction
+             function handleUserInteraction() {
+                 if (userInteracted) return;
+                 
+                 userInteracted = true;
+                 console.log('🎯 User interaction detected - starting videos');
+                 
+                 videos.forEach(video => {
+                     if (video && video.paused) {
+                         attemptPlay(video);
+                     }
+                 });
+                 
+                 // Remove interaction listeners
+                 ['touchstart', 'touchend', 'click', 'scroll', 'keydown', 'mousemove'].forEach(event => {
+                     document.removeEventListener(event, handleUserInteraction);
+                 });
+             }
+             
+             // Setup all videos
+             videos.forEach(video => {
+                 if (!video) return;
+                 
+                 if (isIOS || isSafari) {
+                     setupVideoForIOS(video);
+                     
+                     // Handle video end for continuous loop
+                     video.addEventListener('ended', function() {
+                         console.log(`Video ${video.id} ended, restarting...`);
+                         video.currentTime = 0;
+                         attemptPlay(video);
+                     });
+                     
+                     // Handle pause events
+                     video.addEventListener('pause', function() {
+                         if (!video.ended && userInteracted) {
+                             console.log(`Video ${video.id} paused, attempting restart...`);
+                             setTimeout(() => attemptPlay(video), 100);
+                         }
+                     });
+                     
+                     // Try immediate autoplay
+                     setTimeout(() => {
+                         attemptPlay(video).then(success => {
+                             if (!success) {
+                                 console.log(`Video ${video.id} needs user interaction`);
+                             }
+                         });
+                     }, 100);
+                     
+                 } else {
+                     // Non-iOS devices
+                     video.muted = true;
+                     video.autoplay = true;
+                     attemptPlay(video);
+                 }
+             });
+             
+             // Setup interaction listeners for iOS/Safari
+             if (isIOS || isSafari) {
+                 const interactionEvents = ['touchstart', 'touchend', 'click', 'scroll', 'keydown', 'mousemove'];
+                 
+                 interactionEvents.forEach(event => {
+                     document.addEventListener(event, handleUserInteraction, { 
+                         passive: true, 
+                         once: false 
+                     });
+                 });
+                 
+                 // Handle page visibility changes
+                 document.addEventListener('visibilitychange', function() {
+                     if (!document.hidden && userInteracted) {
+                         videos.forEach(video => {
+                             if (video && video.paused) {
+                                 console.log(`Page visible, restarting video: ${video.id}`);
+                                 attemptPlay(video);
+                             }
+                         });
+                     }
+                 });
+                 
+                 // Handle window focus
+                 window.addEventListener('focus', function() {
+                     if (userInteracted) {
+                         videos.forEach(video => {
+                             if (video && video.paused) {
+                                 console.log(`Window focused, restarting video: ${video.id}`);
+                                 attemptPlay(video);
+                             }
+                         });
+                     }
+                 });
+             }
+             
+             console.log(`🎬 iOS Video System initialized for ${videos.length} videos`);
+             
+             // Add a subtle visual indicator for iOS users if videos can't autoplay
+             if (isIOS || isSafari) {
+                 setTimeout(() => {
+                     // Check if any video is still not playing after initial attempts
+                     const pausedVideos = videos.filter(video => video && video.paused);
+                     
+                     if (pausedVideos.length > 0 && !userInteracted) {
+                         console.log('Creating interaction hint for iOS users');
+                         createInteractionHint();
+                     }
+                 }, 2000);
+             }
+             
+             // Function to create a subtle interaction hint
+             function createInteractionHint() {
+                 if (document.getElementById('video-interaction-hint')) return;
+                 
+                 const hint = document.createElement('div');
+                 hint.id = 'video-interaction-hint';
+                 hint.style.cssText = `
+                     position: fixed;
+                     bottom: 20px;
+                     right: 20px;
+                     background: rgba(239, 65, 75, 0.9);
+                     color: white;
+                     padding: 12px 18px;
+                     border-radius: 25px;
+                     font-size: 13px;
+                     font-weight: 500;
+                     z-index: 9999;
+                     opacity: 0;
+                     transform: translateY(10px);
+                     transition: all 0.3s ease;
+                     cursor: pointer;
+                     backdrop-filter: blur(10px);
+                     border: 1px solid rgba(255, 255, 255, 0.2);
+                     animation: pulseHint 2s ease-in-out infinite;
+                     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                 `;
+                 hint.innerHTML = '🎬 Tap to play videos';
+                 
+                 // Add pulse animation
+                 const style = document.createElement('style');
+                 style.textContent = `
+                     @keyframes pulseHint {
+                         0%, 100% { 
+                             opacity: 0.8; 
+                             transform: translateY(10px) scale(1); 
+                         }
+                         50% { 
+                             opacity: 1; 
+                             transform: translateY(0) scale(1.02); 
+                         }
+                     }
+                 `;
+                 document.head.appendChild(style);
+                 
+                 document.body.appendChild(hint);
+                 
+                 // Animate in
+                 setTimeout(() => {
+                     hint.style.opacity = '0.9';
+                     hint.style.transform = 'translateY(0)';
+                 }, 100);
+                 
+                 // Handle click on hint
+                 hint.addEventListener('click', function() {
+                     handleUserInteraction();
+                     hint.style.opacity = '0';
+                     hint.style.transform = 'translateY(-10px)';
+                     setTimeout(() => hint.remove(), 300);
+                 });
+                 
+                 // Auto remove after user interaction or timeout
+                 const removeHint = () => {
+                     if (hint && hint.parentNode) {
+                         hint.style.opacity = '0';
+                         hint.style.transform = 'translateY(-10px)';
+                         setTimeout(() => {
+                             if (hint.parentNode) hint.remove();
+                         }, 300);
+                     }
+                 };
+                 
+                 // Remove on interaction
+                 const originalHandler = handleUserInteraction;
+                 handleUserInteraction = function() {
+                     originalHandler();
+                     removeHint();
+                 };
+                 
+                 // Auto remove after 8 seconds
+                 setTimeout(removeHint, 8000);
+             }
+         });
 
         // SPA Routing Functionality
         class SPARouter {
@@ -5068,6 +5351,22 @@
                 // Portfolio lazy loading
                 if (sectionName === 'portfolio') {
                     this.initPortfolioLazyLoading();
+                }
+
+                // Restart videos when navigating to home section
+                if (sectionName === 'home') {
+                    setTimeout(() => {
+                        const backgroundVideo = document.getElementById('video-background');
+                        const sliderVideo = document.getElementById('slider-video');
+                        
+                        [backgroundVideo, sliderVideo].forEach(video => {
+                            if (video && video.paused) {
+                                console.log(`Restarting video on home navigation: ${video.id}`);
+                                video.currentTime = 0;
+                                video.play().catch(e => console.log('Video restart failed:', e));
+                            }
+                        });
+                    }, 100);
                 }
             }
 
