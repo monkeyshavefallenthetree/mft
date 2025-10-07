@@ -53,7 +53,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- Vimeo Player API -->
+    <!-- DNS prefetch and preconnect to Vimeo for instant loading -->
+    <link rel="dns-prefetch" href="//player.vimeo.com">
+    <link rel="dns-prefetch" href="//i.vimeocdn.com">
+    <link rel="dns-prefetch" href="//f.vimeocdn.com">
+    <link rel="preconnect" href="https://player.vimeo.com">
+    <link rel="preconnect" href="https://i.vimeocdn.com">
+    <link rel="preconnect" href="https://f.vimeocdn.com">
+    <link rel="preconnect" href="https://fresnel.vimeocdn.com">
+    
+    <!-- Vimeo Player API - Load immediately -->
     <script src="https://player.vimeo.com/api/player.js"></script>
     
     <!-- Schema.org JSON-LD -->
@@ -3538,12 +3547,14 @@
                                         <div class="slides">
                                             <div class="slide active">
                                                 <div id="slider-video" style="width: 100%; height: 100%; position: relative;">
-                                                    <iframe src="https://player.vimeo.com/video/1125241743?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&muted=1&background=1&controls=0&title=0&byline=0&portrait=0" 
+                                                    <iframe src="https://player.vimeo.com/video/1125241743?badge=0&autopause=0&autoplay=1&loop=1&muted=1&background=1&controls=0&title=0&byline=0&portrait=0&quality=720p&transparent=0&dnt=1&speed=1&keyboard=0&pip=0" 
                                                             frameborder="0" 
-                                                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+                                                            allow="autoplay; fullscreen; picture-in-picture" 
                                                             referrerpolicy="strict-origin-when-cross-origin" 
                                                             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"
-                                                            title="finall">
+                                                            title="finall"
+                                                            loading="eager"
+                                                            importance="high">
                                                     </iframe>
                                                 </div>
                                             </div>
@@ -4934,7 +4945,7 @@
              }
              
              console.log(`🎬 iOS Video System initialized for ${videos.length} HTML5 videos`);
-             console.log('📺 Slider is now Vimeo embed - autoplay handled by Vimeo player');
+             console.log('⚡ Vimeo video optimized for instant loading with preconnect and eager loading');
              
              // Add a subtle visual indicator for iOS users if videos can't autoplay
              if (isIOS || isSafari) {
@@ -5463,6 +5474,7 @@
             console.log('📊 Total portfolio images:', document.querySelectorAll('.photo-placeholder-spa').length);
             console.log('🖼️ Portfolio now includes all available images (1-79, excluding 46)');
             console.log('📐 Portfolio images now display at full width with no spacing - seamless gallery');
+            console.log('⚡ Vimeo video loads instantly with DNS prefetch, preconnect, and eager loading');
             console.log('✨ Blog section has been removed from navigation and content');
         });
 
