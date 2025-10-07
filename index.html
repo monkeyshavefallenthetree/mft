@@ -53,9 +53,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- Vimeo Player API -->
-    <script src="https://player.vimeo.com/api/player.js"></script>
-    
     <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
     {
@@ -208,24 +205,12 @@
                  appearance: none;
              }
              
-             #video-background {
+             #video-background,
+             #slider-video {
                  -webkit-playsinline: 1;
                  -webkit-user-select: none;
                  user-select: none;
                  pointer-events: none;
-             }
-             
-             #slider-video {
-                 -webkit-user-select: none;
-                 user-select: none;
-                 pointer-events: auto; /* Allow interaction with Vimeo iframe */
-             }
-             
-             #slider-video iframe {
-                 -webkit-user-select: none;
-                 user-select: none;
-                 border: none;
-                 outline: none;
              }
          }
          
@@ -627,26 +612,6 @@
         .slide img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-        }
-
-        /* Vimeo iframe styling for slider */
-        .slide #slider-video {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-            background: #000;
-        }
-
-        .slide #slider-video iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-            outline: none;
             object-fit: cover;
         }
 
@@ -1639,11 +1604,6 @@
                 height: 200px;
             }
             
-            /* Mobile Vimeo iframe adjustments */
-            .slide #slider-video iframe {
-                object-fit: cover;
-            }
-            
             .slider-controls {
                 bottom: 10px;
                 gap: 10px;
@@ -1715,12 +1675,6 @@
             
             .image-slider {
                 height: 180px;
-            }
-            
-            /* Extra small mobile Vimeo iframe adjustments */
-            .slide #slider-video iframe {
-                object-fit: cover;
-                height: 100%;
             }
             
             .slider-controls {
@@ -3289,17 +3243,16 @@
         }
 
         .portfolio-content-section {
-            padding: 0 0 80px 0;
+            padding: 40px 0 80px;
             max-width: 100%;
             margin: 0;
         }
 
         .portfolio-grid {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: 1fr;
             gap: 0;
             width: 100%;
-            padding: 0;
         }
 
         .photo-wrapper-spa {
@@ -3311,7 +3264,7 @@
         .photo-placeholder-spa {
             width: 100%;
             height: auto;
-            min-height: 400px;
+            min-height: 200px;
             background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
             background-size: 200% 100%;
             animation: loading 1.5s infinite;
@@ -3330,14 +3283,6 @@
             display: block;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
-            object-fit: cover;
-        }
-
-        /* Ensure consistent aspect ratio for full-width images */
-        @media (min-width: 768px) {
-            .photo-placeholder-spa {
-                min-height: 500px;
-            }
         }
 
         .photo-placeholder-spa img.loaded {
@@ -3418,6 +3363,253 @@
             animation: none;
         }
 
+        /* Blog Section Styles */
+        .blog-section-full {
+            padding: 120px 0 80px;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .blog-hero {
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 60px 0;
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(45, 45, 45, 0.9) 100%);
+            border-radius: 24px;
+            margin: 0 20px 40px;
+        }
+
+        .blog-hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .blog-hero-highlight {
+            background: linear-gradient(45deg, #ef414b, #ff6b75);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .blog-hero-subtitle {
+            font-size: 1.1rem;
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .blog-stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 30px;
+        }
+
+        .blog-stats span {
+            background: rgba(239, 65, 75, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(239, 65, 75, 0.3);
+        }
+
+        .blog-content-section {
+            padding: 40px 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .blog-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        .main-article {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(239, 65, 75, 0.2);
+            border-radius: 24px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .article-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .article-meta {
+            font-size: 0.9rem;
+            color: #cccccc;
+            opacity: 0.8;
+        }
+
+        .article-content {
+            color: #e0e0e0;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .article-content h2 {
+            font-size: 1.6rem;
+            color: #ffffff;
+            margin: 40px 0 20px;
+            font-weight: 600;
+        }
+
+        .article-content h3 {
+            font-size: 1.3rem;
+            color: #ef414b;
+            margin: 30px 0 15px;
+            font-weight: 600;
+        }
+
+        .article-content p {
+            margin-bottom: 20px;
+        }
+
+        .article-content ul {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+
+        .article-content li {
+            margin-bottom: 8px;
+        }
+
+        .highlight-box {
+            background: rgba(239, 65, 75, 0.1);
+            border: 1px solid rgba(239, 65, 75, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(239, 65, 75, 0.1), transparent);
+            transition: left 0.8s ease;
+        }
+
+        .highlight-box:hover::before {
+            left: 100%;
+        }
+
+        .highlight-box h3 {
+            color: #ef414b !important;
+            margin-bottom: 15px !important;
+        }
+
+        .services-grid-blog {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .service-card-blog {
+            background: rgba(239, 65, 75, 0.05);
+            border: 1px solid rgba(239, 65, 75, 0.2);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .service-card-blog:hover {
+            transform: translateY(-5px);
+            border-color: rgba(239, 65, 75, 0.4);
+            box-shadow: 0 10px 30px rgba(239, 65, 75, 0.2);
+        }
+
+        .service-icon-blog {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .service-card-blog h3 {
+            font-size: 1.1rem !important;
+            color: #ffffff !important;
+            margin-bottom: 10px !important;
+        }
+
+        .service-card-blog p {
+            font-size: 0.9rem;
+            color: #cccccc;
+            margin-bottom: 0 !important;
+        }
+
+        .blog-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .sidebar-widget {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(239, 65, 75, 0.2);
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .widget-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ef414b;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .sidebar-services {
+            list-style: none;
+        }
+
+        .sidebar-services li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e0e0e0;
+            font-size: 0.95rem;
+        }
+
+        .sidebar-services li:last-child {
+            border-bottom: none;
+        }
+
+        .sidebar-services li::before {
+            content: '→';
+            color: #ef414b;
+            font-weight: bold;
+            margin-right: 10px;
+        }
 
         /* Responsive Adjustments for New Sections */
         @media (max-width: 768px) {
@@ -3425,7 +3617,8 @@
             .services-section-full,
             .clients-section-full,
             .contact-section-full,
-            .portfolio-section-full {
+            .portfolio-section-full,
+            .blog-section-full {
                 padding: 80px 0 60px;
             }
 
@@ -3455,14 +3648,33 @@
                 text-align: center;
             }
 
-
-            .portfolio-grid {
-                padding: 0;
+            .blog-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
             }
 
-            .photo-placeholder-spa {
-                min-height: 250px;
-                border-radius: 0;
+            .blog-hero {
+                margin: 0 10px 30px;
+                padding: 40px 20px;
+            }
+
+            .article-title {
+                font-size: 1.8rem;
+            }
+
+            .main-article {
+                padding: 30px 20px;
+            }
+
+            .services-grid-blog {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .blog-stats {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
             }
         }
  </style>
@@ -3472,7 +3684,7 @@
     <!-- Video background element -->
     <video id="video-background" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="">
         <source src="2.mp4" type="video/mp4">
- 
+        <source src="2.webm" type="video/webm">
         Your browser does not support the video tag.
     </video>
     
@@ -3492,6 +3704,7 @@
                     <li><a href="#services" data-section="services" class="nav-link">Services</a></li>
                     <li><a href="#portfolio" data-section="portfolio" class="nav-link">Portfolio</a></li>
                     <li><a href="#clients" data-section="clients" class="nav-link">Our Clients</a></li>
+                    <li><a href="#blog" data-section="blog" class="nav-link">Blog</a></li>
                     <li><a href="#contact" data-section="contact" class="nav-link">Contact</a></li>
                 </ul>
                 <a href="client-form-firebase.html" class="cta-button">Book a Meeting</a>
@@ -3511,6 +3724,7 @@
                 <li><a href="#services" data-section="services" class="nav-link">Services</a></li>
                 <li><a href="#portfolio" data-section="portfolio" class="nav-link">Portfolio</a></li>
                 <li><a href="#clients" data-section="clients" class="nav-link">Our Clients</a></li>
+                <li><a href="#blog" data-section="blog" class="nav-link">Blog</a></li>
                 <li><a href="#contact" data-section="contact" class="nav-link">Contact</a></li>
             </ul>
             <a href="client-form-firebase.html" class="cta-button">Book a Meeting</a>
@@ -3537,15 +3751,11 @@
                                     <div class="slider-wrapper">
                                         <div class="slides">
                                             <div class="slide active">
-                                                <div id="slider-video" style="width: 100%; height: 100%; position: relative;">
-                                                    <iframe src="https://player.vimeo.com/video/1125241743?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&muted=1&background=1&controls=0&title=0&byline=0&portrait=0" 
-                                                            frameborder="0" 
-                                                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
-                                                            referrerpolicy="strict-origin-when-cross-origin" 
-                                                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"
-                                                            title="finall">
-                                                    </iframe>
-                                                </div>
+                                                <video id="slider-video" autoplay muted loop playsinline webkit-playsinline preload="auto" style="width: 100%; height: 100%; object-fit: cover;">
+                                                     <source src="final.mp4" type="video/mp4">
+                                                     <source src="finall.webm" type="video/webm">
+                                                     Your browser does not support the video tag.
+                                                 </video>
                                             </div>
                                         </div>
                                         
@@ -4116,7 +4326,7 @@
             <div class="portfolio-hero">
                 <div class="hero-container">
                     <h1 class="portfolio-hero-title">Portfolio</h1>
-                    <p class="portfolio-hero-subtitle">Showcasing our creative excellence and successful projects - 78+ portfolio pieces in full-width gallery</p>
+                    <p class="portfolio-hero-subtitle">Showcasing our creative excellence and successful projects</p>
                 </div>
             </div>
 
@@ -4185,184 +4395,150 @@
                     <div class="photo-wrapper-spa">
                         <div class="photo-placeholder-spa" data-src="mftpho/20.webp" data-alt="Portfolio Image 20"></div>
                     </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/21.webp" data-alt="Portfolio Image 21"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/22.webp" data-alt="Portfolio Image 22"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/23.webp" data-alt="Portfolio Image 23"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/24.webp" data-alt="Portfolio Image 24"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/25.webp" data-alt="Portfolio Image 25"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/26.webp" data-alt="Portfolio Image 26"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/27.webp" data-alt="Portfolio Image 27"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/28.webp" data-alt="Portfolio Image 28"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/29.webp" data-alt="Portfolio Image 29"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/30.webp" data-alt="Portfolio Image 30"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/31.webp" data-alt="Portfolio Image 31"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/32.webp" data-alt="Portfolio Image 32"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/33.webp" data-alt="Portfolio Image 33"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/34.webp" data-alt="Portfolio Image 34"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/35.webp" data-alt="Portfolio Image 35"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/36.webp" data-alt="Portfolio Image 36"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/37.webp" data-alt="Portfolio Image 37"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/38.webp" data-alt="Portfolio Image 38"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/39.webp" data-alt="Portfolio Image 39"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/40.webp" data-alt="Portfolio Image 40"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/41.webp" data-alt="Portfolio Image 41"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/42.webp" data-alt="Portfolio Image 42"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/43.webp" data-alt="Portfolio Image 43"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/44.webp" data-alt="Portfolio Image 44"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/45.webp" data-alt="Portfolio Image 45"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/47.webp" data-alt="Portfolio Image 47"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/48.webp" data-alt="Portfolio Image 48"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/49.webp" data-alt="Portfolio Image 49"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/50.webp" data-alt="Portfolio Image 50"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/51.webp" data-alt="Portfolio Image 51"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/52.webp" data-alt="Portfolio Image 52"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/53.webp" data-alt="Portfolio Image 53"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/54.webp" data-alt="Portfolio Image 54"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/55.webp" data-alt="Portfolio Image 55"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/56.webp" data-alt="Portfolio Image 56"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/57.webp" data-alt="Portfolio Image 57"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/58.webp" data-alt="Portfolio Image 58"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/59.webp" data-alt="Portfolio Image 59"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/60.webp" data-alt="Portfolio Image 60"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/61.webp" data-alt="Portfolio Image 61"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/62.webp" data-alt="Portfolio Image 62"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/63.webp" data-alt="Portfolio Image 63"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/64.webp" data-alt="Portfolio Image 64"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/65.webp" data-alt="Portfolio Image 65"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/66.webp" data-alt="Portfolio Image 66"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/67.webp" data-alt="Portfolio Image 67"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/68.webp" data-alt="Portfolio Image 68"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/69.webp" data-alt="Portfolio Image 69"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/70.webp" data-alt="Portfolio Image 70"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/71.webp" data-alt="Portfolio Image 71"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/72.webp" data-alt="Portfolio Image 72"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/73.webp" data-alt="Portfolio Image 73"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/74.webp" data-alt="Portfolio Image 74"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/75.webp" data-alt="Portfolio Image 75"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/76.webp" data-alt="Portfolio Image 76"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/77.webp" data-alt="Portfolio Image 77"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/78.webp" data-alt="Portfolio Image 78"></div>
-                    </div>
-                    <div class="photo-wrapper-spa">
-                        <div class="photo-placeholder-spa" data-src="mftpho/79.webp" data-alt="Portfolio Image 79"></div>
-                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- Blog Section -->
+        <div id="blog" class="page-section blog-section-full">
+            <div class="blog-hero">
+                <div class="hero-container">
+                    <h1 class="blog-hero-title">#1 <span class="blog-hero-highlight">Marketing Agency in Egypt</span> | وكالة التسويق الرقمي الأولى في مصر والشرق الأوسط</h1>
+                    <p class="blog-hero-subtitle">MFT leads all marketing agencies in Egypt with 500+ successful clients across Cairo, Alexandria, Giza. نحن رواد التسويق الرقمي في مصر والشرق الأوسط، نقدم حلولاً مبتكرة في الإعلانات الرقمية، إدارة الحملات، تصميم المواقع، تحسين محركات البحث، وإدارة السوشيال ميديا.</p>
+                    
+                    <div class="blog-stats">
+                        <span>🏆 #1 Ranked Marketing Agency Egypt</span>
+                        <span>🎯 500+ Successful Clients</span>
+                        <span>🚀 1000+ Completed Projects</span>
+                        <span>⭐ Award-Winning Creative Team</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="blog-content-section">
+                <div class="blog-container">
+                    <!-- Main Article -->
+                    <div class="main-article">
+                        <header class="article-header">
+                            <h1 class="article-title">Why MFT is Egypt's #1 Choice for 360 Marketing Solutions</h1>
+                            <div class="article-meta">Published by MFT Team | Digital Marketing Experts | Egypt & Middle East</div>
+                        </header>
+                        
+                        <div class="article-content">
+                            <p>In the rapidly evolving digital landscape of Egypt and the Middle East, businesses need more than just traditional marketing. They need a <strong>360-degree marketing approach</strong> that encompasses every touchpoint of the customer journey. At MFT (Monkeys Have Fallen The Tree), we've revolutionized how brands connect with their audiences across Egypt, UAE, Saudi Arabia, and the entire MENA region.</p>
+
+                            <h2>What Makes a True 360 Marketing Agency?</h2>
+                            <p>A 360 marketing agency doesn't just offer multiple services—it creates a unified ecosystem where every marketing channel works in perfect harmony. From <strong>brand development</strong> and <strong>web design</strong> to <strong>social media marketing</strong> and <strong>video production</strong>, every element is strategically aligned to maximize your ROI and brand impact.</p>
+
+                            <div class="highlight-box">
+                                <h3>🚀 Why Choose MFT for Your Digital Transformation?</h3>
+                                <p>We don't just follow trends—we set them. Our team of creative strategists, digital innovators, and marketing experts have helped over 500+ businesses across Egypt and the Middle East achieve unprecedented growth through our comprehensive 360 marketing solutions.</p>
+                            </div>
+
+                            <h2>Our Comprehensive 360 Marketing Services</h2>
+                            
+                            <div class="services-grid-blog">
+                                <div class="service-card-blog">
+                                    <div class="service-icon-blog">🎯</div>
+                                    <h3>Strategic Brand Development</h3>
+                                    <p>Creating powerful brand identities that resonate with Egyptian and Middle Eastern audiences, from logo design to complete brand ecosystems.</p>
+                                </div>
+                                
+                                <div class="service-card-blog">
+                                    <div class="service-icon-blog">💻</div>
+                                    <h3>Web Development & SEO</h3>
+                                    <p>Building high-converting websites optimized for Egypt and MENA search engines, ensuring your business ranks #1 on Google.</p>
+                                </div>
+                                
+                                <div class="service-card-blog">
+                                    <div class="service-icon-blog">📱</div>
+                                    <h3>Social Media Marketing</h3>
+                                    <p>Dominating Instagram, Facebook, TikTok, and LinkedIn with content that drives engagement and converts followers into customers.</p>
+                                </div>
+                                
+                                <div class="service-card-blog">
+                                    <div class="service-icon-blog">🎬</div>
+                                    <h3>Video Production & Content</h3>
+                                    <p>Creating cinematic videos, motion graphics, and visual content that tells your brand story and captivates Middle Eastern audiences.</p>
+                                </div>
+                                
+                                <div class="service-card-blog">
+                                    <div class="service-icon-blog">📊</div>
+                                    <h3>Digital Advertising</h3>
+                                    <p>Running high-ROI ad campaigns across Google, Facebook, Instagram, and regional platforms to maximize your marketing budget.</p>
+                                </div>
+                                
+                                <div class="service-card-blog">
+                                    <div class="service-icon-blog">🎪</div>
+                                    <h3>Event Marketing & Activations</h3>
+                                    <p>Creating unforgettable brand experiences through events, outdoor advertising, and experiential marketing across Egypt and the Gulf.</p>
+                                </div>
+                            </div>
+
+                            <h2>Why Egypt and Middle East Businesses Choose MFT</h2>
+                            
+                            <h3>🏆 Proven Track Record</h3>
+                            <p>With over <strong>1000+ successful projects</strong> and <strong>500+ satisfied clients</strong> across Egypt, UAE, Saudi Arabia, and Lebanon, we've established ourselves as the go-to marketing agency for businesses serious about growth.</p>
+
+                            <h3>🌍 Regional Expertise</h3>
+                            <p>Understanding the unique cultural nuances, consumer behaviors, and market dynamics of Egypt and the Middle East is crucial for marketing success. Our team combines international best practices with deep local insights.</p>
+
+                            <h3>📈 Data-Driven Results</h3>
+                            <p>Every campaign we run is backed by comprehensive analytics, A/B testing, and performance optimization. We don't just create beautiful campaigns—we create campaigns that deliver measurable business growth.</p>
+
+                            <div class="highlight-box">
+                                <h3>💡 The MFT Difference: "We Don't Just Follow Rules, We Rewrite Them"</h3>
+                                <p>In a crowded marketplace, being different isn't just an advantage—it's essential. Our approach challenges conventional marketing wisdom, creating breakthrough campaigns that make your brand impossible to ignore.</p>
+                            </div>
+
+                            <div class="highlight-box">
+                                <h3>🎯 Ready to Dominate Your Market?</h3>
+                                <p>Don't let your competitors get ahead. Partner with Egypt's #1 360 marketing agency and transform your business into a market leader. Book your strategic consultation today and discover how MFT can accelerate your growth across Egypt and the Middle East.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="blog-sidebar">
+                        <div class="sidebar-widget">
+                            <h3 class="widget-title">Our Services</h3>
+                            <ul class="sidebar-services">
+                                <li>Digital Marketing Strategy</li>
+                                <li>Brand Development & Identity</li>
+                                <li>Web Development & SEO</li>
+                                <li>Social Media Marketing</li>
+                                <li>Video Production</li>
+                                <li>Content Marketing</li>
+                                <li>PPC Advertising</li>
+                                <li>Event Management</li>
+                                <li>Outdoor Advertising</li>
+                                <li>Analytics & Reporting</li>
+                            </ul>
+                        </div>
+
+                        <div class="sidebar-widget">
+                            <h3 class="widget-title">Contact Us</h3>
+                            <div style="text-align: center; color: #e0e0e0;">
+                                <p><strong>📞 Phone:</strong><br>01028500043</p>
+                                <p><strong>✉️ Email:</strong><br>info@mft-adv.com</p>
+                                <p><strong>📍 Address:</strong><br>3 Khalid Ibn El Waleed, Sheraton</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta-section-shared">
+                <div class="cta-container-shared">
+                    <h2 class="cta-title-shared">Ready to Start Your Project?</h2>
+                    <p class="cta-subtitle-shared">Let's discuss how we can help you achieve your marketing goals</p>
+                    <div class="cta-buttons-shared">
+                        <a href="client-form-firebase.html" class="cta-primary-shared">Book a Consultation</a>
+                        <a href="#contact" class="cta-secondary-shared nav-link" data-section="contact">Get in Touch</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Footer with Sliding Text -->
         <footer class="sliding-footer">
@@ -4753,10 +4929,11 @@
         });
 
          // Enhanced iOS Video Autoplay System for Multiple Videos
-          document.addEventListener('DOMContentLoaded', function() {
-              // Get videos that need autoplay (background only, slider is now Vimeo iframe)
-              const backgroundVideo = document.getElementById('video-background');
-              const videos = [backgroundVideo].filter(video => video !== null);
+         document.addEventListener('DOMContentLoaded', function() {
+             // Get all videos that need autoplay
+             const backgroundVideo = document.getElementById('video-background');
+             const sliderVideo = document.getElementById('slider-video');
+             const videos = [backgroundVideo, sliderVideo].filter(video => video !== null);
              
              // Check if it's iOS or Safari
              const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
@@ -4933,8 +5110,7 @@
                  });
              }
              
-             console.log(`🎬 iOS Video System initialized for ${videos.length} HTML5 videos`);
-             console.log('📺 Slider is now Vimeo embed - autoplay handled by Vimeo player');
+             console.log(`🎬 iOS Video System initialized for ${videos.length} videos`);
              
              // Add a subtle visual indicator for iOS users if videos can't autoplay
              if (isIOS || isSafari) {
@@ -5041,6 +5217,7 @@
                     'services': 'services',
                     'portfolio': 'portfolio',
                     'clients': 'clients',
+                    'blog': 'blog',
                     'contact': 'contact'
                 };
                 
@@ -5178,19 +5355,21 @@
                     }, 100);
                 }
 
-                 // Restart videos when navigating to home section
-                 if (sectionName === 'home') {
-                     setTimeout(() => {
-                         const backgroundVideo = document.getElementById('video-background');
-                         
-                         // Only restart background video (slider is now Vimeo iframe - auto-managed)
-                         if (backgroundVideo && backgroundVideo.paused) {
-                             console.log(`Restarting background video on home navigation: ${backgroundVideo.id}`);
-                             backgroundVideo.currentTime = 0;
-                             backgroundVideo.play().catch(e => console.log('Video restart failed:', e));
-                         }
-                     }, 100);
-                 }
+                // Restart videos when navigating to home section
+                if (sectionName === 'home') {
+                    setTimeout(() => {
+                        const backgroundVideo = document.getElementById('video-background');
+                        const sliderVideo = document.getElementById('slider-video');
+                        
+                        [backgroundVideo, sliderVideo].forEach(video => {
+                            if (video && video.paused) {
+                                console.log(`Restarting video on home navigation: ${video.id}`);
+                                video.currentTime = 0;
+                                video.play().catch(e => console.log('Video restart failed:', e));
+                            }
+                        });
+                    }, 100);
+                }
             }
 
             initPortfolioLazyLoading() {
@@ -5461,9 +5640,6 @@
             console.log('📊 Total images to lazy load:', document.querySelectorAll('img[data-src]').length);
             console.log('📊 Total background images:', document.querySelectorAll('.lazy-bg[data-bg]').length);
             console.log('📊 Total portfolio images:', document.querySelectorAll('.photo-placeholder-spa').length);
-            console.log('🖼️ Portfolio now includes all available images (1-79, excluding 46)');
-            console.log('📐 Portfolio images now display at full width with no spacing - seamless gallery');
-            console.log('✨ Blog section has been removed from navigation and content');
         });
 
         // Handle direct section links from other parts of the site
