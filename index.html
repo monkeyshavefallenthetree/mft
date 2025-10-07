@@ -3110,12 +3110,443 @@
             box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
         }
 
+        /* Portfolio Section Styles */
+        .portfolio-section-full {
+            padding: 120px 0 80px;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .portfolio-hero {
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 60px 0;
+        }
+
+        .portfolio-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ef414b, transparent);
+            animation: heroLineGlow 3s ease-in-out infinite alternate;
+            border-radius: 2px;
+        }
+
+        .portfolio-hero-title {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 800;
+            margin-bottom: 30px;
+            background: linear-gradient(120deg, 
+                #ffffff 0%, 
+                #ef414b 25%, 
+                #ff6b75 35%, 
+                #ffffff 50%, 
+                #ef414b 65%, 
+                #ff8a94 75%, 
+                #ffffff 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 400% 400%;
+            animation: ultraSmoothShimmer 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            line-height: 1.1;
+            text-align: center;
+            letter-spacing: -1px;
+        }
+
+        .portfolio-hero-subtitle {
+            font-size: 1.25rem;
+            color: #cccccc;
+            font-weight: 300;
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+
+        .portfolio-content-section {
+            padding: 40px 0 80px;
+            max-width: 100%;
+            margin: 0;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+            width: 100%;
+        }
+
+        .photo-wrapper-spa {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .photo-placeholder-spa {
+            width: 100%;
+            height: auto;
+            min-height: 200px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 14px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-placeholder-spa img {
+            width: 100%;
+            height: auto;
+            display: block;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .photo-placeholder-spa img.loaded {
+            opacity: 1;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        /* Universal Lazy Loading Styles */
+        .lazy-img {
+            transition: opacity 0.5s ease-in-out;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        .lazy-img.loading {
+            opacity: 0.7;
+        }
+
+        .lazy-img.loaded {
+            background: none;
+            animation: none;
+            opacity: 1;
+        }
+
+        .lazy-img.error {
+            background: #333;
+            opacity: 0.5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 12px;
+        }
+
+        .lazy-img.error::after {
+            content: '⚠️ Image failed to load';
+        }
+
+        /* Lazy loading for service icons and images */
+        .service-icon-modern img,
+        .service-image img,
+        .service-icon-full img,
+        .stat-icon img,
+        .client-logo-full img {
+            transition: opacity 0.3s ease;
+        }
+
+        .service-icon-modern img.lazy-img,
+        .service-image img.lazy-img,
+        .service-icon-full img.lazy-img,
+        .stat-icon img.lazy-img {
+            min-height: 60px;
+            border-radius: 8px;
+        }
+
+        .client-logo-full img.lazy-img {
+            min-height: 80px;
+            border-radius: 12px;
+        }
+
+        /* Lazy loading for background images */
+        .lazy-bg {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%) !important;
+            background-size: 200% 100% !important;
+            animation: loading 1.5s infinite;
+        }
+
+        .lazy-bg.loaded {
+            animation: none;
+        }
+
+        /* Blog Section Styles */
+        .blog-section-full {
+            padding: 120px 0 80px;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .blog-hero {
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 60px 0;
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(45, 45, 45, 0.9) 100%);
+            border-radius: 24px;
+            margin: 0 20px 40px;
+        }
+
+        .blog-hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .blog-hero-highlight {
+            background: linear-gradient(45deg, #ef414b, #ff6b75);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .blog-hero-subtitle {
+            font-size: 1.1rem;
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .blog-stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 30px;
+        }
+
+        .blog-stats span {
+            background: rgba(239, 65, 75, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(239, 65, 75, 0.3);
+        }
+
+        .blog-content-section {
+            padding: 40px 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .blog-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        .main-article {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(239, 65, 75, 0.2);
+            border-radius: 24px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .article-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .article-meta {
+            font-size: 0.9rem;
+            color: #cccccc;
+            opacity: 0.8;
+        }
+
+        .article-content {
+            color: #e0e0e0;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .article-content h2 {
+            font-size: 1.6rem;
+            color: #ffffff;
+            margin: 40px 0 20px;
+            font-weight: 600;
+        }
+
+        .article-content h3 {
+            font-size: 1.3rem;
+            color: #ef414b;
+            margin: 30px 0 15px;
+            font-weight: 600;
+        }
+
+        .article-content p {
+            margin-bottom: 20px;
+        }
+
+        .article-content ul {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+
+        .article-content li {
+            margin-bottom: 8px;
+        }
+
+        .highlight-box {
+            background: rgba(239, 65, 75, 0.1);
+            border: 1px solid rgba(239, 65, 75, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(239, 65, 75, 0.1), transparent);
+            transition: left 0.8s ease;
+        }
+
+        .highlight-box:hover::before {
+            left: 100%;
+        }
+
+        .highlight-box h3 {
+            color: #ef414b !important;
+            margin-bottom: 15px !important;
+        }
+
+        .services-grid-blog {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .service-card-blog {
+            background: rgba(239, 65, 75, 0.05);
+            border: 1px solid rgba(239, 65, 75, 0.2);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .service-card-blog:hover {
+            transform: translateY(-5px);
+            border-color: rgba(239, 65, 75, 0.4);
+            box-shadow: 0 10px 30px rgba(239, 65, 75, 0.2);
+        }
+
+        .service-icon-blog {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .service-card-blog h3 {
+            font-size: 1.1rem !important;
+            color: #ffffff !important;
+            margin-bottom: 10px !important;
+        }
+
+        .service-card-blog p {
+            font-size: 0.9rem;
+            color: #cccccc;
+            margin-bottom: 0 !important;
+        }
+
+        .blog-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .sidebar-widget {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(239, 65, 75, 0.2);
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .widget-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ef414b;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .sidebar-services {
+            list-style: none;
+        }
+
+        .sidebar-services li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e0e0e0;
+            font-size: 0.95rem;
+        }
+
+        .sidebar-services li:last-child {
+            border-bottom: none;
+        }
+
+        .sidebar-services li::before {
+            content: '→';
+            color: #ef414b;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
         /* Responsive Adjustments for New Sections */
         @media (max-width: 768px) {
             .about-section,
             .services-section-full,
             .clients-section-full,
-            .contact-section-full {
+            .contact-section-full,
+            .portfolio-section-full,
+            .blog-section-full {
                 padding: 80px 0 60px;
             }
 
@@ -3144,6 +3575,35 @@
                 max-width: 280px;
                 text-align: center;
             }
+
+            .blog-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .blog-hero {
+                margin: 0 10px 30px;
+                padding: 40px 20px;
+            }
+
+            .article-title {
+                font-size: 1.8rem;
+            }
+
+            .main-article {
+                padding: 30px 20px;
+            }
+
+            .services-grid-blog {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .blog-stats {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
         }
  </style>
 </head>
@@ -3170,9 +3630,9 @@
                     <li><a href="#home" data-section="home" class="nav-link active">Home</a></li>
                     <li><a href="#about" data-section="about" class="nav-link">About</a></li>
                     <li><a href="#services" data-section="services" class="nav-link">Services</a></li>
-                    <li><a href="portfolio.html">Portfolio</a></li>
+                    <li><a href="#portfolio" data-section="portfolio" class="nav-link">Portfolio</a></li>
                     <li><a href="#clients" data-section="clients" class="nav-link">Our Clients</a></li>
-                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="#blog" data-section="blog" class="nav-link">Blog</a></li>
                     <li><a href="#contact" data-section="contact" class="nav-link">Contact</a></li>
                 </ul>
                 <a href="client-form-firebase.html" class="cta-button">Book a Meeting</a>
@@ -3190,9 +3650,9 @@
                 <li><a href="#home" data-section="home" class="nav-link">Home</a></li>
                 <li><a href="#about" data-section="about" class="nav-link">About</a></li>
                 <li><a href="#services" data-section="services" class="nav-link">Services</a></li>
-                <li><a href="portfolio.html">Portfolio</a></li>
+                <li><a href="#portfolio" data-section="portfolio" class="nav-link">Portfolio</a></li>
                 <li><a href="#clients" data-section="clients" class="nav-link">Our Clients</a></li>
-                <li><a href="blog.html">Blog</a></li>
+                <li><a href="#blog" data-section="blog" class="nav-link">Blog</a></li>
                 <li><a href="#contact" data-section="contact" class="nav-link">Contact</a></li>
             </ul>
             <a href="client-form-firebase.html" class="cta-button">Book a Meeting</a>
@@ -3257,7 +3717,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-12 col-md-12 mainContainer-snapshot snapShots-content-img-homepage">
-                                    <div class="snapshot-card photo-slideshow" style="background-image: url('d1.webp');">
+                                    <div class="snapshot-card photo-slideshow lazy-bg" data-bg="d1.webp">
                                         <div class="snapshot-overlay">
                                             <span class="snapShots-name">Gallery</span>
                                             <span class="snapShots-desc">Showcasing moments</span>
@@ -3295,12 +3755,12 @@
                     <div class="service-card active" data-index="0">
                         <div class="card-content">
                             <div class="service-icon-modern">
-                                <img src="WEB.png" alt="Web Development" />
+                                <img data-src="WEB.png" alt="Web Development" class="lazy-img" />
                             </div>
                             <h3>Web Development</h3>
                             <p>Modern, responsive websites built with cutting-edge technologies</p>
                             <div class="service-image">
-                                <img src="web.jpg" alt="Web Development">
+                                <img data-src="web.jpg" alt="Web Development" class="lazy-img">
                             </div>
                         </div>
                     </div>
@@ -3308,12 +3768,12 @@
                     <div class="service-card" data-index="1">
                         <div class="card-content">
                             <div class="service-icon-modern">
-                                <img src="media buying.png" alt="Media Buying" />
+                                <img data-src="media buying.png" alt="Media Buying" class="lazy-img" />
                             </div>
                             <h3>Media Buying</h3>
                             <p>Strategic advertising campaigns that maximize ROI and reach</p>
                             <div class="service-image">
-                                <img src="media.jpg" alt="Media Buying">
+                                <img data-src="media.jpg" alt="Media Buying" class="lazy-img">
                             </div>
                         </div>
                     </div>
@@ -3321,12 +3781,12 @@
                     <div class="service-card" data-index="2">
                         <div class="card-content">
                             <div class="service-icon-modern">
-                                <img src="outdoor advertising.png" alt="Outdoor Advertising" />
+                                <img data-src="outdoor advertising.png" alt="Outdoor Advertising" class="lazy-img" />
                             </div>
                             <h3>Outdoor Advertising</h3>
                             <p>High-impact outdoor campaigns that capture attention and drive results</p>
                             <div class="service-image">
-                                <img src="out-door.jpg" alt="Outdoor Advertising">
+                                <img data-src="out-door.jpg" alt="Outdoor Advertising" class="lazy-img">
                             </div>
                         </div>
                     </div>
@@ -3334,12 +3794,12 @@
                     <div class="service-card" data-index="3">
                         <div class="card-content">
                             <div class="service-icon-modern">
-                                <img src="event management.png" alt="Event Management" />
+                                <img data-src="event management.png" alt="Event Management" class="lazy-img" />
                             </div>
                             <h3>Event Management</h3>
                             <p>Comprehensive event planning and execution for memorable experiences</p>
                             <div class="service-image">
-                                <img src="Event.jpg" alt="Outdoor Advertising">
+                                <img data-src="Event.jpg" alt="Event Management" class="lazy-img">
                             </div>
                         </div>
                     </div>
@@ -3347,12 +3807,12 @@
                     <div class="service-card" data-index="4">
                         <div class="card-content">
                             <div class="service-icon-modern">
-                                <img src="media prodaction.png" alt="Media Production" />
+                                <img data-src="media prodaction.png" alt="Media Production" class="lazy-img" />
                             </div>
                             <h3>Media Production</h3>
                             <p>Professional media content creation and production services</p>
                             <div class="service-image">
-                                <img src="media-pro.jpg" alt="Media Production">
+                                <img data-src="media-pro.jpg" alt="Media Production" class="lazy-img">
                             </div>
                         </div>
                     </div>
@@ -3360,12 +3820,12 @@
                     <div class="service-card" data-index="5">
                         <div class="card-content">
                             <div class="service-icon-modern">
-                                <img src="digital.png" alt="Digital Marketing" />
+                                <img data-src="digital.png" alt="Digital Marketing" class="lazy-img" />
                             </div>
                             <h3>Digital Marketing</h3>
                             <p>Growth-driven strategies that amplify your brand's reach</p>
                             <div class="service-image">
-                                <img src="digital-markting.jpg" alt="Digital Marketing">
+                                <img data-src="digital-markting.jpg" alt="Digital Marketing" class="lazy-img">
                             </div>
                         </div>
                     </div>
@@ -3403,7 +3863,7 @@
                 <div class="stats-grid">
                     <div class="stat-card" data-target="500">
                         <div class="stat-icon">
-                            <img src="clients.png" alt="Clients" />
+                            <img data-src="clients.png" alt="Clients" class="lazy-img" />
                         </div>
                         <div class="stat-number">
                             <span class="counter" data-target="500">0</span>
@@ -3414,7 +3874,7 @@
                     
                     <div class="stat-card" data-target="10">
                         <div class="stat-icon">
-                            <img src="sectors.png" alt="Sectors" />
+                            <img data-src="sectors.png" alt="Sectors" class="lazy-img" />
                         </div>
                         <div class="stat-number">
                             <span class="counter" data-target="10">0</span>
@@ -3425,7 +3885,7 @@
                     
                     <div class="stat-card" data-target="1000">
                         <div class="stat-icon">
-                            <img src="project.png" alt="Sectors" />
+                            <img data-src="project.png" alt="Projects" class="lazy-img" />
                         </div>
                         <div class="stat-number">
                             <span class="counter" data-target="1000">0</span>
@@ -3523,7 +3983,7 @@
                     <!-- Media Production -->
                     <div class="service-card-full">
                         <div class="service-content-full">
-                            <div class="service-icon-full"><img src="media prodaction.png" alt="Media Production" /></div>
+                            <div class="service-icon-full"><img data-src="media prodaction.png" alt="Media Production" class="lazy-img" /></div>
                             <h3 class="service-title-full">Media Production</h3>
                             <p class="service-description-full">High-quality video, audio, and visual content production that captivates and engages your audience.</p>
                             <ul class="service-features-full">
@@ -3539,7 +3999,7 @@
                     <!-- Branding -->
                     <div class="service-card-full">
                         <div class="service-content-full">
-                            <div class="service-icon-full"><img src="branding.png" alt="Branding" /></div>
+                            <div class="service-icon-full"><img data-src="branding.png" alt="Branding" class="lazy-img" /></div>
                             <h3 class="service-title-full">Branding</h3>
                             <p class="service-description-full">Create a distinctive brand identity that resonates with your audience and stands out in the market.</p>
                             <ul class="service-features-full">
@@ -3555,7 +4015,7 @@
                     <!-- Web And SEO Development -->
                     <div class="service-card-full">
                         <div class="service-content-full">
-                            <div class="service-icon-full"><img src="WEB.png" alt="Web Development" /></div>
+                            <div class="service-icon-full"><img data-src="WEB.png" alt="Web Development" class="lazy-img" /></div>
                             <h3 class="service-title-full">Web And SEO Development</h3>
                             <p class="service-description-full">Modern, responsive websites optimized for search engines and designed for exceptional user experiences.</p>
                             <ul class="service-features-full">
@@ -3571,7 +4031,7 @@
                     <!-- Digital Strategy -->
                     <div class="service-card-full">
                         <div class="service-content-full">
-                            <div class="service-icon-full"><img src="digital.png" alt="Digital Strategy" /></div>
+                            <div class="service-icon-full"><img data-src="digital.png" alt="Digital Strategy" class="lazy-img" /></div>
                             <h3 class="service-title-full">Digital Strategy</h3>
                             <p class="service-description-full">Comprehensive digital strategies that drive growth, engagement, and conversions across all channels.</p>
                             <ul class="service-features-full">
@@ -3587,7 +4047,7 @@
                     <!-- Outdoor Services -->
                     <div class="service-card-full">
                         <div class="service-content-full">
-                            <div class="service-icon-full"><img src="outdoor services.png" alt="Outdoor Services" /></div>
+                            <div class="service-icon-full"><img data-src="outdoor services.png" alt="Outdoor Services" class="lazy-img" /></div>
                             <h3 class="service-title-full">Outdoor Services</h3>
                             <p class="service-description-full">Impactful outdoor campaigns that capture attention and create lasting brand impressions in the real world.</p>
                             <ul class="service-features-full">
@@ -3603,7 +4063,7 @@
                     <!-- Motion Graphics -->
                     <div class="service-card-full">
                         <div class="service-content-full">
-                            <div class="service-icon-full"><img src="motion graghic.png" alt="Motion Graphics" /></div>
+                            <div class="service-icon-full"><img data-src="motion graghic.png" alt="Motion Graphics" class="lazy-img" /></div>
                             <h3 class="service-title-full">Motion Graphics</h3>
                             <p class="service-description-full">Dynamic and engaging motion graphics that bring your brand to life with stunning visual effects.</p>
                             <ul class="service-features-full">
@@ -3722,9 +4182,9 @@
             <div class="clients-content-section">
                 <div class="clients-logos-container">
                     <h3>Trusted by leading brands across industries</h3>
-                    <img src="logo-1.png" alt="Client Logo 1">
-                    <img src="logo-2.png" alt="Client Logo 2">
-                    <img src="logo-3.png" alt="Client Logo 3">
+                    <img data-src="logo-1.png" alt="Client Logo 1" class="lazy-img">
+                    <img data-src="logo-2.png" alt="Client Logo 2" class="lazy-img">
+                    <img data-src="logo-3.png" alt="Client Logo 3" class="lazy-img">
                 </div>
             </div>
         </div>
@@ -3783,6 +4243,225 @@
                         <a href="client-form-firebase.html" class="cta-primary-shared">Book a Meeting</a>
                         <a href="#services" class="cta-secondary-shared nav-link" data-section="services">View Our Services</a>
                         <a href="worker-register.html" class="cta-secondary-shared">Be Part of Our Team</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portfolio Section -->
+        <div id="portfolio" class="page-section portfolio-section-full">
+            <div class="portfolio-hero">
+                <div class="hero-container">
+                    <h1 class="portfolio-hero-title">Portfolio</h1>
+                    <p class="portfolio-hero-subtitle">Showcasing our creative excellence and successful projects</p>
+                </div>
+            </div>
+
+            <div class="portfolio-content-section">
+                <div class="portfolio-grid">
+                    <div class="photo-wrapper-spa">
+                        <div class="photo-placeholder-spa" data-src="mftpho/1.webp" data-alt="Portfolio Image 1"></div>
+                    </div>
+                    <div class="photo-wrapper-spa">
+                        <div class="photo-placeholder-spa" data-src="mftpho/2.webp" data-alt="Portfolio Image 2"></div>
+                    </div>
+                    <div class="photo-wrapper-spa">
+                        <div class="photo-placeholder-spa" data-src="mftpho/3.webp" data-alt="Portfolio Image 3"></div>
+                    </div>
+                    <div class="photo-wrapper-spa">
+                        <div class="photo-placeholder-spa" data-src="mftpho/4.webp" data-alt="Portfolio Image 4"></div>
+                    </div>
+                    <div class="photo-wrapper-spa">
+                        <div class="photo-placeholder-spa" data-src="mftpho/5.webp" data-alt="Portfolio Image 5"></div>
+                    </div>
+                    <div class="photo-wrapper-spa">
+                        <div class="photo-placeholder-spa" data-src="mftpho/6.webp" data-alt="Portfolio Image 6"></div>
+                    </div>
+                    <div class="photo-wrapper-spa">
+                        <div class="photo-placeholder-spa" data-src="mftpho/7.webp" data-alt="Portfolio Image 7"></div>
+                    </div>
+                    <div class="photo-wrapper-spa">
+                        <div class="photo-placeholder-spa" data-src="mftpho/8.webp" data-alt="Portfolio Image 8"></div>
+                    </div>
+                    <div class="photo-wrapper-spa">
+                        <div class="photo-placeholder-spa" data-src="mftpho/9.1.webp" data-alt="Portfolio Image 9.1"></div>
+                    </div>
+                    <div class="photo-wrapper-spa">
+                        <div class="photo-placeholder-spa" data-src="mftpho/9.webp" data-alt="Portfolio Image 9"></div>
+                    </div>
+                    <div class="photo-wrapper-spa">
+                        <div class="photo-placeholder-spa" data-src="mftpho/10.webp" data-alt="Portfolio Image 10"></div>
+                    </div>
+                    <div class="photo-wrapper-spa">
+                        <div class="photo-placeholder-spa" data-src="mftpho/11.webp" data-alt="Portfolio Image 11"></div>
+                    </div>
+                    <div class="photo-wrapper-spa">
+                        <div class="photo-placeholder-spa" data-src="mftpho/12.webp" data-alt="Portfolio Image 12"></div>
+                    </div>
+                    <div class="photo-wrapper-spa">
+                        <div class="photo-placeholder-spa" data-src="mftpho/13.webp" data-alt="Portfolio Image 13"></div>
+                    </div>
+                    <div class="photo-wrapper-spa">
+                        <div class="photo-placeholder-spa" data-src="mftpho/14.webp" data-alt="Portfolio Image 14"></div>
+                    </div>
+                    <div class="photo-wrapper-spa">
+                        <div class="photo-placeholder-spa" data-src="mftpho/15.webp" data-alt="Portfolio Image 15"></div>
+                    </div>
+                    <div class="photo-wrapper-spa">
+                        <div class="photo-placeholder-spa" data-src="mftpho/16.webp" data-alt="Portfolio Image 16"></div>
+                    </div>
+                    <div class="photo-wrapper-spa">
+                        <div class="photo-placeholder-spa" data-src="mftpho/17.webp" data-alt="Portfolio Image 17"></div>
+                    </div>
+                    <div class="photo-wrapper-spa">
+                        <div class="photo-placeholder-spa" data-src="mftpho/18.webp" data-alt="Portfolio Image 18"></div>
+                    </div>
+                    <div class="photo-wrapper-spa">
+                        <div class="photo-placeholder-spa" data-src="mftpho/19.webp" data-alt="Portfolio Image 19"></div>
+                    </div>
+                    <div class="photo-wrapper-spa">
+                        <div class="photo-placeholder-spa" data-src="mftpho/20.webp" data-alt="Portfolio Image 20"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Section -->
+        <div id="blog" class="page-section blog-section-full">
+            <div class="blog-hero">
+                <div class="hero-container">
+                    <h1 class="blog-hero-title">#1 <span class="blog-hero-highlight">Marketing Agency in Egypt</span> | وكالة التسويق الرقمي الأولى في مصر والشرق الأوسط</h1>
+                    <p class="blog-hero-subtitle">MFT leads all marketing agencies in Egypt with 500+ successful clients across Cairo, Alexandria, Giza. نحن رواد التسويق الرقمي في مصر والشرق الأوسط، نقدم حلولاً مبتكرة في الإعلانات الرقمية، إدارة الحملات، تصميم المواقع، تحسين محركات البحث، وإدارة السوشيال ميديا.</p>
+                    
+                    <div class="blog-stats">
+                        <span>🏆 #1 Ranked Marketing Agency Egypt</span>
+                        <span>🎯 500+ Successful Clients</span>
+                        <span>🚀 1000+ Completed Projects</span>
+                        <span>⭐ Award-Winning Creative Team</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="blog-content-section">
+                <div class="blog-container">
+                    <!-- Main Article -->
+                    <div class="main-article">
+                        <header class="article-header">
+                            <h1 class="article-title">Why MFT is Egypt's #1 Choice for 360 Marketing Solutions</h1>
+                            <div class="article-meta">Published by MFT Team | Digital Marketing Experts | Egypt & Middle East</div>
+                        </header>
+                        
+                        <div class="article-content">
+                            <p>In the rapidly evolving digital landscape of Egypt and the Middle East, businesses need more than just traditional marketing. They need a <strong>360-degree marketing approach</strong> that encompasses every touchpoint of the customer journey. At MFT (Monkeys Have Fallen The Tree), we've revolutionized how brands connect with their audiences across Egypt, UAE, Saudi Arabia, and the entire MENA region.</p>
+
+                            <h2>What Makes a True 360 Marketing Agency?</h2>
+                            <p>A 360 marketing agency doesn't just offer multiple services—it creates a unified ecosystem where every marketing channel works in perfect harmony. From <strong>brand development</strong> and <strong>web design</strong> to <strong>social media marketing</strong> and <strong>video production</strong>, every element is strategically aligned to maximize your ROI and brand impact.</p>
+
+                            <div class="highlight-box">
+                                <h3>🚀 Why Choose MFT for Your Digital Transformation?</h3>
+                                <p>We don't just follow trends—we set them. Our team of creative strategists, digital innovators, and marketing experts have helped over 500+ businesses across Egypt and the Middle East achieve unprecedented growth through our comprehensive 360 marketing solutions.</p>
+                            </div>
+
+                            <h2>Our Comprehensive 360 Marketing Services</h2>
+                            
+                            <div class="services-grid-blog">
+                                <div class="service-card-blog">
+                                    <div class="service-icon-blog">🎯</div>
+                                    <h3>Strategic Brand Development</h3>
+                                    <p>Creating powerful brand identities that resonate with Egyptian and Middle Eastern audiences, from logo design to complete brand ecosystems.</p>
+                                </div>
+                                
+                                <div class="service-card-blog">
+                                    <div class="service-icon-blog">💻</div>
+                                    <h3>Web Development & SEO</h3>
+                                    <p>Building high-converting websites optimized for Egypt and MENA search engines, ensuring your business ranks #1 on Google.</p>
+                                </div>
+                                
+                                <div class="service-card-blog">
+                                    <div class="service-icon-blog">📱</div>
+                                    <h3>Social Media Marketing</h3>
+                                    <p>Dominating Instagram, Facebook, TikTok, and LinkedIn with content that drives engagement and converts followers into customers.</p>
+                                </div>
+                                
+                                <div class="service-card-blog">
+                                    <div class="service-icon-blog">🎬</div>
+                                    <h3>Video Production & Content</h3>
+                                    <p>Creating cinematic videos, motion graphics, and visual content that tells your brand story and captivates Middle Eastern audiences.</p>
+                                </div>
+                                
+                                <div class="service-card-blog">
+                                    <div class="service-icon-blog">📊</div>
+                                    <h3>Digital Advertising</h3>
+                                    <p>Running high-ROI ad campaigns across Google, Facebook, Instagram, and regional platforms to maximize your marketing budget.</p>
+                                </div>
+                                
+                                <div class="service-card-blog">
+                                    <div class="service-icon-blog">🎪</div>
+                                    <h3>Event Marketing & Activations</h3>
+                                    <p>Creating unforgettable brand experiences through events, outdoor advertising, and experiential marketing across Egypt and the Gulf.</p>
+                                </div>
+                            </div>
+
+                            <h2>Why Egypt and Middle East Businesses Choose MFT</h2>
+                            
+                            <h3>🏆 Proven Track Record</h3>
+                            <p>With over <strong>1000+ successful projects</strong> and <strong>500+ satisfied clients</strong> across Egypt, UAE, Saudi Arabia, and Lebanon, we've established ourselves as the go-to marketing agency for businesses serious about growth.</p>
+
+                            <h3>🌍 Regional Expertise</h3>
+                            <p>Understanding the unique cultural nuances, consumer behaviors, and market dynamics of Egypt and the Middle East is crucial for marketing success. Our team combines international best practices with deep local insights.</p>
+
+                            <h3>📈 Data-Driven Results</h3>
+                            <p>Every campaign we run is backed by comprehensive analytics, A/B testing, and performance optimization. We don't just create beautiful campaigns—we create campaigns that deliver measurable business growth.</p>
+
+                            <div class="highlight-box">
+                                <h3>💡 The MFT Difference: "We Don't Just Follow Rules, We Rewrite Them"</h3>
+                                <p>In a crowded marketplace, being different isn't just an advantage—it's essential. Our approach challenges conventional marketing wisdom, creating breakthrough campaigns that make your brand impossible to ignore.</p>
+                            </div>
+
+                            <div class="highlight-box">
+                                <h3>🎯 Ready to Dominate Your Market?</h3>
+                                <p>Don't let your competitors get ahead. Partner with Egypt's #1 360 marketing agency and transform your business into a market leader. Book your strategic consultation today and discover how MFT can accelerate your growth across Egypt and the Middle East.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="blog-sidebar">
+                        <div class="sidebar-widget">
+                            <h3 class="widget-title">Our Services</h3>
+                            <ul class="sidebar-services">
+                                <li>Digital Marketing Strategy</li>
+                                <li>Brand Development & Identity</li>
+                                <li>Web Development & SEO</li>
+                                <li>Social Media Marketing</li>
+                                <li>Video Production</li>
+                                <li>Content Marketing</li>
+                                <li>PPC Advertising</li>
+                                <li>Event Management</li>
+                                <li>Outdoor Advertising</li>
+                                <li>Analytics & Reporting</li>
+                            </ul>
+                        </div>
+
+                        <div class="sidebar-widget">
+                            <h3 class="widget-title">Contact Us</h3>
+                            <div style="text-align: center; color: #e0e0e0;">
+                                <p><strong>📞 Phone:</strong><br>01028500043</p>
+                                <p><strong>✉️ Email:</strong><br>info@mft-adv.com</p>
+                                <p><strong>📍 Address:</strong><br>3 Khalid Ibn El Waleed, Sheraton</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta-section-shared">
+                <div class="cta-container-shared">
+                    <h2 class="cta-title-shared">Ready to Start Your Project?</h2>
+                    <p class="cta-subtitle-shared">Let's discuss how we can help you achieve your marketing goals</p>
+                    <div class="cta-buttons-shared">
+                        <a href="client-form-firebase.html" class="cta-primary-shared">Book a Consultation</a>
+                        <a href="#contact" class="cta-secondary-shared nav-link" data-section="contact">Get in Touch</a>
                     </div>
                 </div>
             </div>
@@ -4253,7 +4932,9 @@
                     'home': 'home',
                     'about': 'about', 
                     'services': 'services',
+                    'portfolio': 'portfolio',
                     'clients': 'clients',
+                    'blog': 'blog',
                     'contact': 'contact'
                 };
                 
@@ -4378,11 +5059,217 @@
                         }, index * 150);
                     });
                 }
+
+                // Load images for the current section immediately
+                if (window.universalLazyLoader) {
+                    window.universalLazyLoader.loadSectionImages(sectionName);
+                }
+
+                // Portfolio lazy loading
+                if (sectionName === 'portfolio') {
+                    this.initPortfolioLazyLoading();
+                }
+            }
+
+            initPortfolioLazyLoading() {
+                // Portfolio images are now handled by the universal lazy loading system
+                // This method is kept for compatibility but delegates to the main system
+                if (window.universalLazyLoader) {
+                    window.universalLazyLoader.observePortfolioImages();
+                }
             }
         }
 
-        // Initialize SPA Router when DOM is loaded
+        // Universal Lazy Loading System
+        class UniversalLazyLoader {
+            constructor() {
+                this.imageObserver = null;
+                this.init();
+            }
+
+            init() {
+                // Check if Intersection Observer is supported
+                if ('IntersectionObserver' in window) {
+                    this.imageObserver = new IntersectionObserver((entries, observer) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                this.loadImage(entry.target);
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    }, {
+                        root: null,
+                        rootMargin: '50px', // Start loading 50px before the image comes into view
+                        threshold: 0.1
+                    });
+
+                    this.observeAllImages();
+                } else {
+                    // Fallback for browsers without Intersection Observer
+                    this.loadAllImages();
+                }
+            }
+
+            observeAllImages() {
+                // Observe regular lazy images
+                const lazyImages = document.querySelectorAll('img[data-src]');
+                lazyImages.forEach(img => {
+                    img.classList.add('lazy-img');
+                    this.imageObserver.observe(img);
+                });
+
+                // Observe background images
+                const lazyBgElements = document.querySelectorAll('.lazy-bg[data-bg]');
+                lazyBgElements.forEach(el => {
+                    this.imageObserver.observe(el);
+                });
+
+                // Observe portfolio placeholders
+                this.observePortfolioImages();
+            }
+
+            observePortfolioImages() {
+                const portfolioPlaceholders = document.querySelectorAll('.photo-placeholder-spa');
+                portfolioPlaceholders.forEach(placeholder => {
+                    if (this.imageObserver) {
+                        this.imageObserver.observe(placeholder);
+                    }
+                });
+            }
+
+            loadImage(element) {
+                if (element.classList.contains('photo-placeholder-spa')) {
+                    // Handle portfolio placeholder
+                    this.loadPortfolioImage(element);
+                } else if (element.hasAttribute('data-src')) {
+                    // Handle regular lazy image
+                    this.loadRegularImage(element);
+                } else if (element.hasAttribute('data-bg')) {
+                    // Handle background image
+                    this.loadBackgroundImage(element);
+                }
+            }
+
+            loadRegularImage(img) {
+                const src = img.getAttribute('data-src');
+                if (!src) return;
+
+                img.classList.add('loading');
+
+                // Create a new image to test loading
+                const imageLoader = new Image();
+                
+                imageLoader.onload = () => {
+                    img.src = src;
+                    img.classList.remove('loading');
+                    img.classList.add('loaded');
+                    img.removeAttribute('data-src');
+                };
+
+                imageLoader.onerror = () => {
+                    img.classList.remove('loading');
+                    img.classList.add('error');
+                    img.removeAttribute('data-src');
+                };
+
+                imageLoader.src = src;
+            }
+
+            loadPortfolioImage(placeholder) {
+                const src = placeholder.getAttribute('data-src');
+                const alt = placeholder.getAttribute('data-alt');
+                
+                if (!src || placeholder.querySelector('img')) return;
+
+                const img = document.createElement('img');
+                img.alt = alt;
+                img.style.opacity = '0';
+                img.style.transition = 'opacity 0.5s ease-in-out';
+                
+                img.onload = function() {
+                    this.style.opacity = '1';
+                    placeholder.style.background = 'none';
+                    placeholder.style.animation = 'none';
+                };
+                
+                img.onerror = function() {
+                    placeholder.style.background = '#333';
+                    placeholder.style.animation = 'none';
+                    placeholder.textContent = '⚠️ Failed to load';
+                    placeholder.style.color = '#999';
+                    placeholder.style.display = 'flex';
+                    placeholder.style.alignItems = 'center';
+                    placeholder.style.justifyContent = 'center';
+                };
+                
+                placeholder.appendChild(img);
+                img.src = src;
+            }
+
+            loadBackgroundImage(element) {
+                const bgSrc = element.getAttribute('data-bg');
+                if (!bgSrc) return;
+
+                // Create a new image to preload the background
+                const imageLoader = new Image();
+                
+                imageLoader.onload = () => {
+                    element.style.backgroundImage = `url('${bgSrc}')`;
+                    element.classList.add('loaded');
+                    element.removeAttribute('data-bg');
+                };
+
+                imageLoader.onerror = () => {
+                    element.style.background = '#333';
+                    element.classList.add('loaded');
+                    element.removeAttribute('data-bg');
+                    console.warn(`Failed to load background image: ${bgSrc}`);
+                };
+
+                imageLoader.src = bgSrc;
+            }
+
+            loadAllImages() {
+                // Fallback: load all images immediately
+                const allLazyImages = document.querySelectorAll('img[data-src]');
+                allLazyImages.forEach(img => this.loadRegularImage(img));
+
+                const allLazyBg = document.querySelectorAll('.lazy-bg[data-bg]');
+                allLazyBg.forEach(el => this.loadBackgroundImage(el));
+
+                const allPortfolioPlaceholders = document.querySelectorAll('.photo-placeholder-spa');
+                allPortfolioPlaceholders.forEach(placeholder => this.loadPortfolioImage(placeholder));
+            }
+
+            // Public method to observe new images added dynamically
+            observeImage(element) {
+                if (this.imageObserver) {
+                    this.imageObserver.observe(element);
+                }
+            }
+
+            // Public method to load images in a specific section
+            loadSectionImages(sectionId) {
+                const section = document.getElementById(sectionId);
+                if (!section) return;
+
+                const sectionImages = section.querySelectorAll('img[data-src]');
+                sectionImages.forEach(img => this.loadRegularImage(img));
+
+                const sectionBgElements = section.querySelectorAll('.lazy-bg[data-bg]');
+                sectionBgElements.forEach(el => this.loadBackgroundImage(el));
+
+                const sectionPlaceholders = section.querySelectorAll('.photo-placeholder-spa');
+                sectionPlaceholders.forEach(placeholder => this.loadPortfolioImage(placeholder));
+            }
+        }
+
+        // Initialize Universal Lazy Loader and SPA Router when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
+            // Create global lazy loader instance
+            window.universalLazyLoader = new UniversalLazyLoader();
+            
+            // Initialize SPA Router
             new SPARouter();
         });
 
